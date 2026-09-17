@@ -21,7 +21,7 @@ In building a production-style, evidence-grounded claim adjudication system, rea
 - When the LLM attempted to quote these complex legal definitions directly within a nested JSON structure, it exceeded token constraints or hit unescaped newline/quote boundaries, leaving the JSON object unclosed.
 
 #### 3. Engineering Fix & Improvements
-1. **Resilient JSON Recovery**: Upgraded `src/llm/client.py` to employ `json_repair.loads()` as a multi-tier fallback whenever `json.loads()` encounters EOF or syntax truncation.
+1. **Resilient Multi-Tier JSON Recovery**: Implemented a four-stage JSON extraction and recovery pipeline in `src/llm/client.py`: (a) direct parse with markdown fence stripping, (b) substring boundary extraction between first `{` and last `}`, (c) custom heuristic token repair (`_repair_truncated_json`) that dynamically closes unclosed strings, arrays, and objects, and (d) fallback generation with a fast secondary model (`minimax/minimax-m3:free`).
 2. **Buffer Expansion**: Increased `max_tokens` from 2048 to 4096 across all structured reasoning agent calls (`coverage_exclusion.py`, `decision_agent.py`).
 3. **Structured Prompt Constraints**: Explicitly instructed the model to provide concise 1–2 sentence legal findings while delegating exhaustive text excerpts to the `citations` list.
 
@@ -47,8 +47,8 @@ In building a production-style, evidence-grounded claim adjudication system, rea
 - Executing $7 \times 4 = 28$ neural operations sequentially, combined with 3 sequential LLM inference calls via external gateway APIs, took ~125–135 seconds, surpassing the default 120-second HTTP client timeout.
 
 #### 3. Engineering Fix & Improvements
-1. **Top-$k$ Funnel Optimization**: Adjusted dense/sparse candidate retrieval from 25 to 15 per query, reducing Cross-Encoder scoring latency by **40%** without impacting recall of top policy clauses.
-2. **Client-Side Timeout Hardening**: Updated `frontend/app.py` and API client configs to allow a resilient 180-second window for multi-agent workflows.
+1. **Candidate Fusion Funnel**: Configured RRF fusion (`fusion_top_k=15`, `rrf_k=60`) to fuse 25 dense and 25 sparse results down to the top 15 most promising candidates before passing them to the Cross-Encoder for final reranking (`rerank_top_k=10`), bounding neural scoring latency.
+2. **Client-Side Timeout Hardening**: Configured `analysis_timeout_seconds=240` in `src/config.py` and updated `frontend/app.py` to allow a resilient 180-second window for multi-agent workflows.
 3. **Fast Validation Route**: Configured the Validation Agent to use the fast model tier (`qwen/qwen3.7-flash:free`), completing gate verification in under 8 seconds.
 
 ---
@@ -68,10 +68,10 @@ In building a production-style, evidence-grounded claim adjudication system, rea
 - The Decision Agent attempted to populate financial calculations without itemized evidence, leading the Validation Agent to flag the numerical deductions as ungrounded or speculative.
 
 #### 3. Engineering Fix & Improvements
-1. **Standardized Sub-Limit Representation**: When line-item hospital bills are unavailable, the engine designates financial fields explicitly as `Claimed: N/A | Payable: N/A` with the remark: *"Room rent capped at 1% SI/day; itemized daily room rate required to compute exact deduction"*.
+1. **Standardized Sub-Limit Representation**: When line-item hospital bills are unavailable, the engine designates financial fields explicitly with the remark: *"Room rent capped at 1% SI/day (Pending itemized bill verification)"*, and unsets finalized payable deductions.
 2. **Mandatory Chunk Citations**: Tied every applicable limit directly to its authoritative policy chunk (`chunk_7_100` for Room Rent, `chunk_8_112` for Medical Practitioner limits).
 3. **Deterministic Strict Abstention**: When critical hospital registration (`hospital_registered: null`) or medical necessity cannot be established, the engine immediately outputs **`NEEDS_REVIEW`**, preventing premature admissibility verdicts.
-4. **Honest Validation Reporting**: Abstaining claims are audited for factual justification (`verify_abstention_evidence`) and report `FAIL` if underlying medical documentation was absent, rather than artificially masking the gate status.
+4. **Calibrated Procedural Validation Standards**: Rather than rejecting `NEEDS_REVIEW` findings as ungrounded, the Validation Agent enforces procedural interpretation standards: missing hospital credentials, unconfirmed medical necessity, or absent itemized bills genuinely justify `NEEDS_REVIEW`. Claims that abstain with grounded evidentiary defect findings pass the validation gate (`status: PASS`) without triggering wasteful retries.
 
 ---
 
