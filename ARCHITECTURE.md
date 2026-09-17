@@ -30,7 +30,7 @@ flowchart TD
 
     VA -->|PASS| End([Final Structured Decision])
     VA -->|Abstention: NEEDS_REVIEW| End
-    VA -->|FAIL: Unsupported Claims & Retry <= 2| CE
+    VA -->|"FAIL: Unsupported Claims (Retry 1 or 2)"| CE
 ```
 
 #### Agent Boundaries & Responsibilities
