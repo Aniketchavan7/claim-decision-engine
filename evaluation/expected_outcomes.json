@@ -55,8 +55,8 @@
   },
   "PUB-010": {
     "expected_decision": "ADMISSIBLE_WITH_LIMITS",
-    "expected_policy_sections": ["Portability", "Specific Waiting Period"],
-    "expected_reason": "Cataract requires a 2-year waiting period, but policy continuity with prior Indian insurer (1 year) plus current tenure (8 months) provides portability credit.",
+    "expected_policy_sections": ["Waiting Period for Specific Diseases", "Portability"],
+    "expected_reason": "Cataract has a 1-year specific disease waiting period under Section Exclusions Clause 3, but continuous prior coverage of 1 year with another Indian insurer waives this waiting period.",
     "key_dimensions": ["portability", "waiting_period", "limits"]
   },
   "PUB-011": {
@@ -80,7 +80,7 @@
   "CUST-002": {
     "expected_decision": "NOT_ADMISSIBLE",
     "expected_policy_sections": ["Waiting Period for Specific Diseases", "Joint Replacement"],
-    "expected_reason": "Joint replacement for non-accidental osteoarthritis has a mandatory 24-month waiting period. The policyholder only has 20 continuous months of coverage.",
+    "expected_reason": "Joint replacement for non-accidental osteoarthritis has a mandatory 1-year (first year of operation) specific disease waiting period under Section Exclusions Clause 3. The policyholder only has 8 continuous months of coverage.",
     "key_dimensions": ["waiting_period"]
   },
   "CUST-003": {

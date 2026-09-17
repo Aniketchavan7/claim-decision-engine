@@ -33,7 +33,7 @@ CRITICAL RULES:
 
 For each dimension, assess:
 - COVERAGE: Is the treatment/condition covered? What benefits apply?
-- WAITING_PERIOD: Does any waiting period (initial 30-day, 2-year specific disease, 4-year PED) block the claim?
+- WAITING_PERIOD: Does any waiting period (initial 30-day, 1-year specific disease under Clause 3, 4-year PED) block the claim?
 - EXCLUSION: Is the treatment explicitly excluded (cosmetic, experimental, specific conditions)?
 - HOSPITAL_DEFINITION: Does the facility meet the policy's hospital definition?
 - LIMITS: What sub-limits, caps, or per-day limits apply (room rent, ambulance, procedure-specific)?
