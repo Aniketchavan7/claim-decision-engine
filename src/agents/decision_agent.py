@@ -28,12 +28,11 @@ DECISION STATUSES:
 - NEEDS_REVIEW: Cannot make a safe decision because evidence or policy support is missing/uncertain.
 
 CRITICAL ABSTENTION RULES (STRICT NEEDS_REVIEW):
-You MUST set decision = "NEEDS_REVIEW" and missing_critical = 0.0 when:
-1. Hospital verification is unconfirmed or fails statutory definition: hospital_registered is null or false, beds_count < 10, or facility lacks OT/24x7 qualified nursing staff (Section: Hospital Definition, chunk_3_036).
-2. Medical necessity is unconfirmed or admission is primarily observational/diagnostic: medical_necessity_confirmed is null or false, or admission is for observation without confirmed pathological diagnosis (Section: Medically Necessary, chunk_4_052).
-3. Missing critical documentation: Missing itemized bill or doctor certificate required to determine admissibility or allowable sub-limits.
-4. The case task explicitly indicates that additional evidence or verification is required before a final decision.
-DO NOT approve or cap claims with ADMISSIBLE_WITH_LIMITS when hospital registration, minimum beds, or medical necessity is unverified. Under IRDAI compliance, the system MUST ABSTAIN with NEEDS_REVIEW.
+You MUST set decision = "NEEDS_REVIEW" and missing_critical = 0.0 ONLY when there are genuine evidentiary gaps or negative findings:
+1. When evidence_context explicitly notes unverified or failing hospital criteria (e.g., hospital_registered is null or false, beds_count < 10, or facility fails statutory criteria per Section: Hospital Definition, chunk_3_036).
+2. When evidence_context explicitly notes unverified medical necessity (medical_necessity_confirmed is null or false), or the admission was purely for observation/investigation without active medical/surgical treatment (chunk_4_052).
+3. When the case task explicitly specifies that additional evidence is required before a final decision, or essential documentation (itemized bill, doctor prescription) is missing.
+4. For standard inpatient claims with complete documentation at network/registered hospitals where no evidentiary defects are raised, DO NOT abstain. Adjudicate as ADMISSIBLE_WITH_LIMITS, NOT_ADMISSIBLE, or PARTIALLY_ADMISSIBLE based on policy clauses and limits.
 
 CONFIDENCE SCORING (evidence-based, not probability):
 Evaluate these observable signals:
@@ -172,10 +171,13 @@ Generate the final decision as JSON."""
     decision = result.get("decision", "NEEDS_REVIEW")
     cb = result.get("confidence_breakdown", {})
 
-    if abstention_reasons or cb.get("missing_critical", 1.0) == 0.0 or decision == "NEEDS_REVIEW":
+    if abstention_reasons:
         decision = "NEEDS_REVIEW"
         cb["missing_critical"] = 0.0
         logger.warning("Strict abstention triggered: decision forced to NEEDS_REVIEW (%s)", abstention_reasons)
+    elif decision == "NEEDS_REVIEW" or cb.get("missing_critical", 1.0) == 0.0:
+        decision = "NEEDS_REVIEW"
+        cb["missing_critical"] = 0.0
 
         # Merge abstention reasons into missing_evidence
         current_missing = result.get("missing_evidence", [])

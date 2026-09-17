@@ -1,13 +1,11 @@
 {
   "total_cases_evaluated": 17,
-  "public_cases_count": 12,
-  "custom_candidate_cases_count": 5,
   "decision_accuracy_pct": 100.0,
   "correct_decisions": 17,
   "abstention_accuracy_pct": 100.0,
   "needs_review_expected": 4,
   "needs_review_correct": 4,
   "retrieval_section_recall_pct": 100.0,
-  "citation_validity_pct": 100.0,
-  "validation_gate_pass_rate_pct": 100.0
+  "canonical_citation_resolver_accuracy_pct": 97.7,
+  "finding_citation_coverage_pct": 89.66
 }

@@ -31,10 +31,10 @@
   {
     "case_id": "CUST-002",
     "policy_id": "USGIC-CSC-2017-2018",
-    "policy_start_date": "2024-06-01",
+    "policy_start_date": "2025-06-01",
     "claim_date": "2026-02-10",
     "sum_insured_inr": 400000,
-    "continuous_coverage_months": 20,
+    "continuous_coverage_months": 8,
     "prior_insurer_continuous_years": 0,
     "patient": { "age": 55 },
     "hospital": { "name": "Global Multispeciality", "network_provider": true },
@@ -55,7 +55,7 @@
       "ambulance": 0
     },
     "documents": ["claim_form", "discharge_summary", "itemized_bill"],
-    "task": "Assess admissibility under the 2-year specific illness/joint replacement waiting period clause."
+    "task": "Assess admissibility under the 1-year specific illness/joint replacement waiting period clause."
   },
   {
     "case_id": "CUST-003",
