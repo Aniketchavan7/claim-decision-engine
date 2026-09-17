@@ -1,11 +1,11 @@
 # Evaluation Report: Policy-Aware Multi-Agent RAG Claim Decision Engine
 
-**Date:** 2026-09-17 17:58:21
+**Date:** 2026-09-17 19:16:17
 
 ## Overall Metrics
 
 - **Decision Quality (Label Accuracy):** 100.0%
-- **Validation Gate Pass Rate:** 100.0% (1/1 cases passed gate)
+- **Validation Gate Pass Rate:** 100.0% (5/5 cases passed gate)
 - **Retrieval Section Recall@k:** 100.0%
 - **Canonical Citation Resolver Accuracy:** 100.0% (provenance, chunk_id existence, text grounding)
 - **Material Finding Citation Coverage:** 100.0% (key findings supported by policy citations)
@@ -13,9 +13,13 @@
 
 ## Detailed Case Results
 
-| Case ID   | Expected               | System Decision        | Match   |   Confidence | Validation   | Section Recall   | Finding Coverage   | Latency   |
-|-----------|------------------------|------------------------|---------|--------------|--------------|------------------|--------------------|-----------|
-| PUB-004   | ADMISSIBLE_WITH_LIMITS | ADMISSIBLE_WITH_LIMITS | PASS    |         0.96 | PASS         | 100%             | 100%               | 85.79s    |
+| Case ID   | Expected       | System Decision   | Match   |   Confidence | Validation   | Section Recall   | Finding Coverage   | Latency   |
+|-----------|----------------|-------------------|---------|--------------|--------------|------------------|--------------------|-----------|
+| PUB-006   | NEEDS_REVIEW   | NEEDS_REVIEW      | PASS    |         0.57 | PASS         | 100%             | 100%               | 89.89s    |
+| PUB-011   | NEEDS_REVIEW   | NEEDS_REVIEW      | PASS    |         0.54 | PASS         | 100%             | 100%               | 94.34s    |
+| PUB-012   | NOT_ADMISSIBLE | NOT_ADMISSIBLE    | PASS    |         1    | PASS         | 100%             | 100%               | 62.71s    |
+| CUST-001  | NEEDS_REVIEW   | NEEDS_REVIEW      | PASS    |         0.51 | PASS         | 100%             | 100%               | 128.67s   |
+| CUST-004  | NEEDS_REVIEW   | NEEDS_REVIEW      | PASS    |         0.59 | PASS         | 100%             | 100%               | 77.23s    |
 
 ## Investigation of Retrieval Recall & Section Naming
 

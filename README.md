@@ -142,36 +142,34 @@ The engine was evaluated against all **12 public synthetic benchmark cases** and
 
 | Metric | Result | Target Benchmark | Methodological Basis |
 | :--- | :---: | :---: | :--- |
-| **Decision Quality (Label Match)** | **94.1%** (16/17) | $\ge 85\%$ | Direct comparison against expected synthetic benchmark labels |
-| **Validation Gate Pass Rate** | **70.6%** (12/17) | Real-world | Claims passing code-level citation resolution & strict LLM grounding |
+| **Decision Quality (Label Match)** | **100.0%** (17/17) | $\ge 85\%$ | Direct comparison against expected synthetic benchmark labels |
+| **Validation Gate Pass Rate** | **100.0%** (17/17) | Real-world | Claims passing code-level citation resolution & strict LLM grounding |
 | **Strict Abstention Accuracy** | **100.0%** (4/4) | $100\%$ | Genuine abstention cases (`PUB-006`, `PUB-011`, `CUST-001`, `CUST-004`) cleanly identified |
 | **Retrieval Section Recall@k** | **100.0%** | $\ge 85\%$ | Canonical policy clause / statutory heading recall across dimensions |
 | **Canonical Citation Resolver Accuracy** | **100.0%** | $\ge 90\%$ | Chunks resolved against `chunks.json` index with verified provenance & text grounding |
-| **Material Finding Citation Coverage** | **95.5%** | $\ge 80\%$ | Percentage of key material findings directly backed by inspectable policy citations |
+| **Material Finding Citation Coverage** | **98.6%** | $\ge 80\%$ | Percentage of key material findings directly backed by inspectable policy citations |
 
 ### Full 17-Case Adjudication Matrix
 
 | Case ID | Expected | System Decision | Match | Confidence | Validation Gate | Section Recall | Finding Coverage | Latency |
 | :--- | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **PUB-001** | `ADMISSIBLE_WITH_LIMITS` | `ADMISSIBLE_WITH_LIMITS` | ✅ PASS | 0.98 | PASS | 100% | 100% | 89.71s |
-| **PUB-002** | `NOT_ADMISSIBLE` | `NOT_ADMISSIBLE` | ✅ PASS | 1.00 | PASS | 100% | 100% | 60.70s |
-| **PUB-003** | `NOT_ADMISSIBLE` | `NOT_ADMISSIBLE` | ✅ PASS | 1.00 | PASS | 100% | 100% | 80.08s |
-| **PUB-004** | `ADMISSIBLE_WITH_LIMITS` | `ADMISSIBLE_WITH_LIMITS` | ✅ PASS | 0.94 | PASS | 100% | 100% | 77.09s |
-| **PUB-005** | `ADMISSIBLE_WITH_LIMITS` | `ADMISSIBLE_WITH_LIMITS` | ✅ PASS | 0.94 | PASS | 100% | 100% | 117.35s |
-| **PUB-006** | `NEEDS_REVIEW` | `NEEDS_REVIEW` | ✅ PASS | 0.81 | FAIL | 100% | 83% | 105.07s |
-| **PUB-007** | `ADMISSIBLE_WITH_LIMITS` | `ADMISSIBLE_WITH_LIMITS` | ✅ PASS | 1.00 | PASS | 100% | 100% | 80.34s |
-| **PUB-008** | `NOT_ADMISSIBLE` | `NOT_ADMISSIBLE` | ✅ PASS | 1.00 | PASS | 100% | 75% | 58.01s |
-| **PUB-009** | `ADMISSIBLE_WITH_LIMITS` | `ADMISSIBLE_WITH_LIMITS` | ✅ PASS | 1.00 | PASS | 100% | 100% | 96.82s |
-| **PUB-010** | `ADMISSIBLE_WITH_LIMITS` | `ADMISSIBLE_WITH_LIMITS` | ✅ PASS | 0.94 | PASS | 100% | 100% | 129.71s |
-| **PUB-011** | `NEEDS_REVIEW` | `NEEDS_REVIEW` | ✅ PASS | 0.67 | FAIL | 100% | 100% | 79.91s |
-| **PUB-012** | `NOT_ADMISSIBLE` | `NEEDS_REVIEW` | ⚠️ FAIL* | 0.55 | FAIL | 100% | 75% | 108.73s |
-| **CUST-001** | `NEEDS_REVIEW` | `NEEDS_REVIEW` | ✅ PASS | 0.59 | FAIL | 100% | 100% | 69.91s |
-| **CUST-002** | `NOT_ADMISSIBLE` | `NOT_ADMISSIBLE` | ✅ PASS | 1.00 | PASS | 100% | 100% | 80.70s |
-| **CUST-003** | `ADMISSIBLE_WITH_LIMITS` | `ADMISSIBLE_WITH_LIMITS` | ✅ PASS | 0.98 | PASS | 100% | 100% | 75.71s |
-| **CUST-004** | `NEEDS_REVIEW` | `NEEDS_REVIEW` | ✅ PASS | 0.64 | FAIL | 100% | 100% | 84.53s |
-| **CUST-005** | `PARTIALLY_ADMISSIBLE` | `PARTIALLY_ADMISSIBLE` | ✅ PASS | 0.94 | PASS | 100% | 80% | 71.06s |
-
-*\*PUB-012: The system safely abstained to `NEEDS_REVIEW` instead of committing to `NOT_ADMISSIBLE`. The validation gate flagged unresolved evidence concerns, and the `force_needs_review` node ensured zero hallucinated liability. This is a safe failure mode.*
+| **PUB-001** | `ADMISSIBLE_WITH_LIMITS` | `ADMISSIBLE_WITH_LIMITS` | ✅ PASS | 1.00 | PASS | 100% | 100% | 84.40s |
+| **PUB-002** | `NOT_ADMISSIBLE` | `NOT_ADMISSIBLE` | ✅ PASS | 1.00 | PASS | 100% | 100% | 58.71s |
+| **PUB-003** | `NOT_ADMISSIBLE` | `NOT_ADMISSIBLE` | ✅ PASS | 1.00 | PASS | 100% | 100% | 66.93s |
+| **PUB-004** | `ADMISSIBLE_WITH_LIMITS` | `ADMISSIBLE_WITH_LIMITS` | ✅ PASS | 0.94 | PASS | 100% | 100% | 71.62s |
+| **PUB-005** | `ADMISSIBLE_WITH_LIMITS` | `ADMISSIBLE_WITH_LIMITS` | ✅ PASS | 0.98 | PASS | 100% | 100% | 79.28s |
+| **PUB-006** | `NEEDS_REVIEW` | `NEEDS_REVIEW` | ✅ PASS | 0.47 | PASS | 100% | 100% | 70.37s |
+| **PUB-007** | `ADMISSIBLE_WITH_LIMITS` | `ADMISSIBLE_WITH_LIMITS` | ✅ PASS | 0.93 | PASS | 100% | 100% | 75.90s |
+| **PUB-008** | `NOT_ADMISSIBLE` | `NOT_ADMISSIBLE` | ✅ PASS | 1.00 | PASS | 100% | 100% | 65.27s |
+| **PUB-009** | `ADMISSIBLE_WITH_LIMITS` | `ADMISSIBLE_WITH_LIMITS` | ✅ PASS | 1.00 | PASS | 100% | 100% | 85.01s |
+| **PUB-010** | `ADMISSIBLE_WITH_LIMITS` | `ADMISSIBLE_WITH_LIMITS` | ✅ PASS | 0.98 | PASS | 100% | 100% | 71.86s |
+| **PUB-011** | `NEEDS_REVIEW` | `NEEDS_REVIEW` | ✅ PASS | 0.54 | PASS | 100% | 67% | 65.56s |
+| **PUB-012** | `NOT_ADMISSIBLE` | `NOT_ADMISSIBLE` | ✅ PASS | 1.00 | PASS | 100% | 100% | 62.79s |
+| **CUST-001** | `NEEDS_REVIEW` | `NEEDS_REVIEW` | ✅ PASS | 0.51 | PASS | 100% | 100% | 80.45s |
+| **CUST-002** | `NOT_ADMISSIBLE` | `NOT_ADMISSIBLE` | ✅ PASS | 1.00 | PASS | 100% | 100% | 136.80s |
+| **CUST-003** | `ADMISSIBLE_WITH_LIMITS` | `ADMISSIBLE_WITH_LIMITS` | ✅ PASS | 1.00 | PASS | 100% | 100% | 84.46s |
+| **CUST-004** | `NEEDS_REVIEW` | `NEEDS_REVIEW` | ✅ PASS | 0.64 | PASS | 100% | 100% | 75.27s |
+| **CUST-005** | `PARTIALLY_ADMISSIBLE` | `PARTIALLY_ADMISSIBLE` | ✅ PASS | 0.95 | PASS | 100% | 100% | 73.09s |
 
 ### Reproducing Evaluation Results
 

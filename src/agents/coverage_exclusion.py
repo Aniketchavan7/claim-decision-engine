@@ -38,7 +38,7 @@ CANONICAL POLICY CLAUSE REFERENCE (Use these exact chunk IDs):
 - Initial 30-day Waiting Period & 1-Year Specific Disease Waiting Period (Clause 3: cataract, hernia, piles, sinusitis, joint replacement, myomectomy, etc.): chunk_9_115
 - Pre-Existing Diseases (48-month waiting period): chunk_8_108; Portability credit: chunk_8_109; PED definition: chunk_5_062
 - General Exclusions (Cosmetic/aesthetic treatment of any description, plastic surgery except for injury/disease, dental, circumcision, spectacles, HIV/AIDS, pregnancy): chunk_9_115 (item 5 explicitly excludes cosmetic/plastic surgery)
-- Unproven / Experimental Treatment Exclusion: chunk_10_117
+- Unproven / Experimental Treatment Definition & Exclusion: chunk_6_077 ("Unproven/Experimental Treatment means a treatment, including drug Experimental therapy, which is not based on established medical practice in India"), chunk_4_052 (Medically Necessary Treatment: must conform to accepted professional medical standards), and chunk_10_117 (item 14: treatments not approved by Medical Council).
 
 CRITICAL CITATION RULES:
 1. Base every finding on the ACTUAL policy text provided. Quote or reference it.
@@ -47,14 +47,18 @@ CRITICAL CITATION RULES:
    - NEVER state that <48 months of coverage satisfies the 48-month PED waiting period of chunk_8_108.
 3. EXCLUSIONS:
    - General Exclusions (cosmetic surgery, aesthetic treatment, plastic surgery) are in chunk_9_115 item 5. Do NOT cite chunk_8_107 (header only) or chunk_2_024 (dental only) for cosmetic exclusions.
-4. HOSPITALIZATION & 24-HOUR REQUIREMENT:
+4. EXPERIMENTAL / UNPROVEN TREATMENT:
+   - When treatment.experimental is true or procedure is experimental therapy, the treatment is excluded from coverage.
+   - Cite chunk_6_077 (unproven/experimental treatment definition), chunk_4_052 (failure to meet medically necessary professional standards), and chunk_10_117.
+   - Formulate an exclusion finding (category: "exclusion", supported: true) indicating the claim is NOT_ADMISSIBLE.
+5. HOSPITALIZATION & 24-HOUR REQUIREMENT:
    - For standard 24-hour minimum stay: cite chunk_3_035.
    - For Day Care waiver: cite chunk_7_104.
-5. DOMICILIARY HOSPITALIZATION:
+6. DOMICILIARY HOSPITALIZATION:
    - Domiciliary treatment condition under chunk_2_028 is satisfied if EITHER patient_cannot_be_moved is true OR hospital_room_unavailable is true.
    - When hospital_room_unavailable is true, the policy condition is met. Reason about coverage and apply the 20% Basic Sum Insured sub-limit (chunk_7_102). Do not claim evidence is missing for room unavailability.
-6. If evidence is insufficient to make a determination, say "INSUFFICIENT_EVIDENCE" for that dimension.
-7. Each finding must reference the chunk_id(s) that support it.
+7. If evidence is insufficient to make a determination, say "INSUFFICIENT_EVIDENCE" for that dimension.
+8. Each finding must reference the chunk_id(s) that support it.
 
 Respond with JSON:
 {

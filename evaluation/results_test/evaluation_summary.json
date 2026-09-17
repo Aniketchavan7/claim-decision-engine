@@ -1,12 +1,12 @@
 {
-  "total_cases_evaluated": 1,
+  "total_cases_evaluated": 5,
   "decision_accuracy_pct": 100.0,
-  "correct_decisions": 1,
+  "correct_decisions": 5,
   "validation_pass_rate_pct": 100.0,
-  "validation_passes": 1,
+  "validation_passes": 5,
   "abstention_accuracy_pct": 100.0,
-  "needs_review_expected": 0,
-  "needs_review_correct": 0,
+  "needs_review_expected": 4,
+  "needs_review_correct": 4,
   "retrieval_section_recall_pct": 100.0,
   "canonical_citation_resolver_accuracy_pct": 100.0,
   "finding_citation_coverage_pct": 100.0

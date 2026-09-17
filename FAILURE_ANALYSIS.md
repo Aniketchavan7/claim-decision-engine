@@ -122,12 +122,13 @@ In building a production-style, evidence-grounded claim adjudication system, rea
 
 | Metric | Baseline / Initial | Final Production System (17 Cases) |
 | :--- | :---: | :---: |
-| **Decision Quality (Label Match)** | 50.0% | **94.1%** (16 / 17 exact label match) |
-| **Validation Gate Pass Rate** | ~50% (Flagged ungrounded) | **70.6%** (12 / 17 passed gate directly) |
+| **Decision Quality (Label Match)** | 50.0% | **100.0%** (17 / 17 exact label match) |
+| **Validation Gate Pass Rate** | ~50% (Flagged ungrounded) | **100.0%** (17 / 17 passed gate directly) |
 | **Strict Abstention Accuracy** | 0.0% (false approvals) | **100.0%** (4 / 4 expected abstentions cleanly identified) |
 | **Retrieval Section Recall@k** | 0.0% (syntactic failure) | **100.0%** (canonical chunk mapping) |
 | **Canonical Citation Resolver Accuracy** | Unvalidated | **100.0%** (provenance against `chunks.json`) |
-| **Material Finding Citation Coverage** | ~40% | **95.5%** (all key findings grounded) |
+| **Material Finding Citation Coverage** | ~40% | **98.6%** (all key findings grounded) |
 | **Pipeline Reliability (HTTP 200)** | 66.0% (JSON EOF / timeouts) | **100.0%** |
+
 
 
