@@ -1,0 +1,36 @@
+# Core
+fastapi>=0.104.0
+uvicorn>=0.24.0
+pydantic>=2.5.0
+pydantic-settings>=2.1.0
+
+# PDF Processing
+PyMuPDF>=1.23.0
+
+# Embeddings & Vector Search
+sentence-transformers>=3.0.0
+faiss-cpu>=1.7.4
+
+# Sparse Retrieval
+bm25s>=0.2.0
+PyStemmer>=2.2.0
+
+# Reranking (uses sentence-transformers CrossEncoder)
+
+# LLM (OpenAI-compatible SDK — works with xkiro, OpenAI, Groq, Gemini)
+openai>=1.0.0
+
+# Agent Orchestration
+langgraph>=0.0.40
+langchain-core>=0.3.0
+
+# Frontend
+streamlit>=1.29.0
+
+# Utilities
+python-dotenv>=1.0.0
+httpx>=0.25.0
+tiktoken>=0.5.0
+
+# Evaluation
+tabulate>=0.9.0

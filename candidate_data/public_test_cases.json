@@ -1,0 +1,488 @@
+[
+  {
+    "case_id": "PUB-001",
+    "policy_id": "USGIC-CSC-2017-2018",
+    "policy_start_date": "2025-01-01",
+    "claim_date": "2026-03-14",
+    "sum_insured_inr": 500000,
+    "continuous_coverage_months": 14,
+    "prior_insurer_continuous_years": 0,
+    "patient": {
+      "age": 34
+    },
+    "hospital": {
+      "name": "Sunrise Multispeciality",
+      "network_provider": true
+    },
+    "treatment": {
+      "type": "inpatient",
+      "admission_hours": 96,
+      "diagnosis": "Acute appendicitis",
+      "procedure": "Appendectomy",
+      "pre_existing": false,
+      "experimental": false
+    },
+    "expenses_inr": {
+      "room": 30000,
+      "doctor_fees": 30000,
+      "medicines_diagnostics": 90000,
+      "pre_hospitalization": 5000,
+      "post_hospitalization": 7000,
+      "ambulance": 1200
+    },
+    "documents": [
+      "claim_form",
+      "discharge_summary",
+      "itemized_bill",
+      "doctor_prescription"
+    ],
+    "task": "Determine whether the hospitalization is admissible, identify applicable policy limits, and explain any deductions."
+  },
+  {
+    "case_id": "PUB-002",
+    "policy_id": "USGIC-CSC-2017-2018",
+    "policy_start_date": "2026-01-01",
+    "claim_date": "2026-01-20",
+    "sum_insured_inr": 500000,
+    "continuous_coverage_months": 0,
+    "prior_insurer_continuous_years": 0,
+    "patient": {
+      "age": 41
+    },
+    "hospital": {
+      "name": "City Care Hospital",
+      "network_provider": true
+    },
+    "treatment": {
+      "type": "inpatient",
+      "admission_hours": 96,
+      "diagnosis": "Viral fever",
+      "procedure": "Medical management",
+      "pre_existing": false,
+      "experimental": false
+    },
+    "expenses_inr": {
+      "room": 20000,
+      "doctor_fees": 20000,
+      "medicines_diagnostics": 30000,
+      "pre_hospitalization": 0,
+      "post_hospitalization": 0,
+      "ambulance": 0
+    },
+    "documents": [
+      "claim_form",
+      "discharge_summary",
+      "itemized_bill"
+    ],
+    "task": "Determine whether the claim falls within the initial waiting period and what the appropriate decision should be."
+  },
+  {
+    "case_id": "PUB-003",
+    "policy_id": "USGIC-CSC-2017-2018",
+    "policy_start_date": "2024-01-01",
+    "claim_date": "2026-04-10",
+    "sum_insured_inr": 500000,
+    "continuous_coverage_months": 27,
+    "prior_insurer_continuous_years": 0,
+    "patient": {
+      "age": 52
+    },
+    "hospital": {
+      "name": "Metro Heart Centre",
+      "network_provider": true
+    },
+    "treatment": {
+      "type": "inpatient",
+      "admission_hours": 96,
+      "diagnosis": "Pre-existing thyroid disorder with complications",
+      "procedure": "Complication management",
+      "pre_existing": true,
+      "experimental": false
+    },
+    "expenses_inr": {
+      "room": 20000,
+      "doctor_fees": 35000,
+      "medicines_diagnostics": 70000,
+      "pre_hospitalization": 8000,
+      "post_hospitalization": 9000,
+      "ambulance": 0
+    },
+    "documents": [
+      "claim_form",
+      "discharge_summary",
+      "itemized_bill",
+      "prior_medical_records"
+    ],
+    "task": "Assess the claim considering the policy's pre-existing disease waiting-period provisions."
+  },
+  {
+    "case_id": "PUB-004",
+    "policy_id": "USGIC-CSC-2017-2018",
+    "policy_start_date": "2024-01-01",
+    "claim_date": "2026-05-08",
+    "sum_insured_inr": 500000,
+    "continuous_coverage_months": 28,
+    "prior_insurer_continuous_years": 0,
+    "patient": {
+      "age": 29
+    },
+    "hospital": {
+      "name": "HomeCare Services",
+      "network_provider": false
+    },
+    "treatment": {
+      "type": "domiciliary",
+      "admission_hours": 0,
+      "diagnosis": "Condition requiring home treatment",
+      "procedure": "Domiciliary treatment",
+      "pre_existing": false,
+      "hospital_room_unavailable": true,
+      "patient_cannot_be_moved": false,
+      "experimental": false
+    },
+    "expenses_inr": {
+      "room": 0,
+      "doctor_fees": 25000,
+      "medicines_diagnostics": 80000,
+      "pre_hospitalization": 0,
+      "post_hospitalization": 0,
+      "ambulance": 0
+    },
+    "documents": [
+      "claim_form",
+      "doctor_certificate",
+      "medical_records",
+      "itemized_bill"
+    ],
+    "task": "Determine whether the domiciliary treatment satisfies the policy conditions and identify the applicable sub-limit."
+  },
+  {
+    "case_id": "PUB-005",
+    "policy_id": "USGIC-CSC-2017-2018",
+    "policy_start_date": "2024-01-01",
+    "claim_date": "2026-06-11",
+    "sum_insured_inr": 500000,
+    "continuous_coverage_months": 29,
+    "prior_insurer_continuous_years": 0,
+    "patient": {
+      "age": 46
+    },
+    "hospital": {
+      "name": "Advanced Care",
+      "network_provider": true
+    },
+    "treatment": {
+      "type": "day_care",
+      "admission_hours": 8,
+      "diagnosis": "Cataract",
+      "procedure": "Eye surgery",
+      "pre_existing": false,
+      "experimental": false
+    },
+    "expenses_inr": {
+      "room": 0,
+      "doctor_fees": 15000,
+      "medicines_diagnostics": 45000,
+      "pre_hospitalization": 2000,
+      "post_hospitalization": 3000,
+      "ambulance": 0
+    },
+    "documents": [
+      "claim_form",
+      "procedure_record",
+      "itemized_bill",
+      "doctor_certificate"
+    ],
+    "task": "Determine whether the less-than-24-hour treatment can qualify as a covered hospitalization/day-care claim."
+  },
+  {
+    "case_id": "PUB-006",
+    "policy_id": "USGIC-CSC-2017-2018",
+    "policy_start_date": "2024-01-01",
+    "claim_date": "2026-07-03",
+    "sum_insured_inr": 500000,
+    "continuous_coverage_months": 30,
+    "prior_insurer_continuous_years": 0,
+    "patient": {
+      "age": 38
+    },
+    "hospital": {
+      "name": "Prime Hospital",
+      "network_provider": true
+    },
+    "treatment": {
+      "type": "inpatient",
+      "admission_hours": 96,
+      "diagnosis": "Acute infection",
+      "procedure": "Hospital treatment",
+      "pre_existing": false,
+      "experimental": false
+    },
+    "expenses_inr": {
+      "room": 30000,
+      "doctor_fees": 20000,
+      "medicines_diagnostics": 100000,
+      "pre_hospitalization": 4000,
+      "post_hospitalization": 6000,
+      "ambulance": 500
+    },
+    "documents": [
+      "claim_form",
+      "discharge_summary"
+    ],
+    "task": "Assess admissibility and identify what additional evidence is required before a final decision.",
+    "evidence_context": {
+      "hospital_registered": null,
+      "medical_necessity_confirmed": null
+    }
+  },
+  {
+    "case_id": "PUB-007",
+    "policy_id": "USGIC-CSC-2017-2018",
+    "policy_start_date": "2024-01-01",
+    "claim_date": "2026-08-15",
+    "sum_insured_inr": 1000000,
+    "continuous_coverage_months": 31,
+    "prior_insurer_continuous_years": 0,
+    "patient": {
+      "age": 44
+    },
+    "hospital": {
+      "name": "Specialist Hospital",
+      "network_provider": true
+    },
+    "treatment": {
+      "type": "inpatient",
+      "admission_hours": 96,
+      "diagnosis": "Cancer",
+      "procedure": "Treatment",
+      "pre_existing": false,
+      "experimental": false
+    },
+    "expenses_inr": {
+      "room": 80000,
+      "doctor_fees": 300000,
+      "medicines_diagnostics": 500000,
+      "pre_hospitalization": 10000,
+      "post_hospitalization": 15000,
+      "ambulance": 1500
+    },
+    "documents": [
+      "claim_form",
+      "histopathology_report",
+      "discharge_summary",
+      "itemized_bill"
+    ],
+    "task": "Assess the claim and apply the policy's category-specific limits rather than assuming the full bill is payable."
+  },
+  {
+    "case_id": "PUB-008",
+    "policy_id": "USGIC-CSC-2017-2018",
+    "policy_start_date": "2024-01-01",
+    "claim_date": "2026-09-02",
+    "sum_insured_inr": 500000,
+    "continuous_coverage_months": 32,
+    "prior_insurer_continuous_years": 0,
+    "patient": {
+      "age": 35
+    },
+    "hospital": {
+      "name": "Wellness Centre",
+      "network_provider": true
+    },
+    "treatment": {
+      "type": "inpatient",
+      "admission_hours": 96,
+      "diagnosis": "Cosmetic condition",
+      "procedure": "Cosmetic surgery",
+      "pre_existing": false,
+      "experimental": false
+    },
+    "expenses_inr": {
+      "room": 10000,
+      "doctor_fees": 20000,
+      "medicines_diagnostics": 30000,
+      "pre_hospitalization": 0,
+      "post_hospitalization": 0,
+      "ambulance": 0
+    },
+    "documents": [
+      "claim_form",
+      "discharge_summary",
+      "itemized_bill",
+      "doctor_note"
+    ],
+    "task": "Determine whether the treatment falls within the policy's covered scope or an exclusion."
+  },
+  {
+    "case_id": "PUB-009",
+    "policy_id": "USGIC-CSC-2017-2018",
+    "policy_start_date": "2024-01-01",
+    "claim_date": "2026-09-10",
+    "sum_insured_inr": 500000,
+    "continuous_coverage_months": 32,
+    "prior_insurer_continuous_years": 0,
+    "patient": {
+      "age": 40
+    },
+    "hospital": {
+      "name": "Recovery Hospital",
+      "network_provider": true
+    },
+    "treatment": {
+      "type": "inpatient",
+      "admission_hours": 96,
+      "diagnosis": "Acute appendicitis",
+      "procedure": "Appendectomy",
+      "pre_existing": false,
+      "experimental": false
+    },
+    "expenses_inr": {
+      "room": 15000,
+      "doctor_fees": 50000,
+      "medicines_diagnostics": 100000,
+      "pre_hospitalization": 9000,
+      "post_hospitalization": 12000,
+      "ambulance": 800
+    },
+    "documents": [
+      "claim_form",
+      "discharge_summary",
+      "itemized_bill",
+      "doctor_prescription",
+      "pre_post_expense_records"
+    ],
+    "expense_timing": {
+      "pre_hospitalization_days_before_admission": 30,
+      "post_hospitalization_days_after_discharge": 60,
+      "same_condition_confirmed": true
+    },
+    "task": "Assess the claim and verify the policy time windows for pre-hospitalization and post-hospitalization expenses."
+  },
+  {
+    "case_id": "PUB-010",
+    "policy_id": "USGIC-CSC-2017-2018",
+    "policy_start_date": "2026-01-01",
+    "claim_date": "2026-09-05",
+    "sum_insured_inr": 500000,
+    "continuous_coverage_months": 8,
+    "prior_insurer_continuous_years": 1,
+    "patient": {
+      "age": 47
+    },
+    "hospital": {
+      "name": "Vision Hospital",
+      "network_provider": true
+    },
+    "treatment": {
+      "type": "day_care",
+      "admission_hours": 8,
+      "diagnosis": "Cataract",
+      "procedure": "Eye surgery",
+      "pre_existing": false,
+      "experimental": false
+    },
+    "expenses_inr": {
+      "room": 0,
+      "doctor_fees": 20000,
+      "medicines_diagnostics": 60000,
+      "pre_hospitalization": 0,
+      "post_hospitalization": 0,
+      "ambulance": 0
+    },
+    "documents": [
+      "claim_form",
+      "procedure_record",
+      "itemized_bill",
+      "doctor_certificate",
+      "prior_policy_records"
+    ],
+    "task": "Assess the claim considering continuous prior coverage with another Indian insurer and the waiting-period reduction rules.",
+    "prior_policy": {
+      "insurer_type": "Indian individual health insurer",
+      "continuous_years": 1,
+      "database_and_claim_history_received": true,
+      "previous_sum_insured_inr": 500000
+    }
+  },
+  {
+    "case_id": "PUB-011",
+    "policy_id": "USGIC-CSC-2017-2018",
+    "policy_start_date": "2024-01-01",
+    "claim_date": "2026-09-12",
+    "sum_insured_inr": 500000,
+    "continuous_coverage_months": 32,
+    "prior_insurer_continuous_years": 0,
+    "patient": {
+      "age": 39
+    },
+    "hospital": {
+      "name": "Unknown Care Facility",
+      "network_provider": false
+    },
+    "treatment": {
+      "type": "inpatient",
+      "admission_hours": 96,
+      "diagnosis": "Acute appendicitis",
+      "procedure": "Appendectomy",
+      "pre_existing": false,
+      "experimental": false
+    },
+    "expenses_inr": {
+      "room": 15000,
+      "doctor_fees": 25000,
+      "medicines_diagnostics": 60000,
+      "pre_hospitalization": 0,
+      "post_hospitalization": 0,
+      "ambulance": 0
+    },
+    "documents": [
+      "claim_form",
+      "itemized_bill"
+    ],
+    "task": "Determine whether the claim can be finally decided when the supplied evidence does not establish that the facility meets the policy definition of a Hospital.",
+    "evidence_context": {
+      "hospital_registered": null,
+      "hospital_minimum_criteria_documented": false
+    }
+  },
+  {
+    "case_id": "PUB-012",
+    "policy_id": "USGIC-CSC-2017-2018",
+    "policy_start_date": "2024-01-01",
+    "claim_date": "2026-09-13",
+    "sum_insured_inr": 500000,
+    "continuous_coverage_months": 32,
+    "prior_insurer_continuous_years": 0,
+    "patient": {
+      "age": 36
+    },
+    "hospital": {
+      "name": "Research Medical Centre",
+      "network_provider": true
+    },
+    "treatment": {
+      "type": "inpatient",
+      "admission_hours": 96,
+      "diagnosis": "Experimental condition",
+      "procedure": "Experimental therapy",
+      "pre_existing": false,
+      "experimental": true
+    },
+    "expenses_inr": {
+      "room": 20000,
+      "doctor_fees": 30000,
+      "medicines_diagnostics": 90000,
+      "pre_hospitalization": 0,
+      "post_hospitalization": 0,
+      "ambulance": 0
+    },
+    "documents": [
+      "claim_form",
+      "discharge_summary",
+      "itemized_bill",
+      "doctor_certificate"
+    ],
+    "task": "Determine whether the treatment is excluded because it is experimental or unproven."
+  }
+]

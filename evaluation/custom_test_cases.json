@@ -1,0 +1,152 @@
+[
+  {
+    "case_id": "CUST-001",
+    "policy_id": "USGIC-CSC-2017-2018",
+    "policy_start_date": "2025-01-01",
+    "claim_date": "2026-04-15",
+    "sum_insured_inr": 300000,
+    "continuous_coverage_months": 15,
+    "prior_insurer_continuous_years": 0,
+    "patient": { "age": 42 },
+    "hospital": { "name": "Apex Heart Institute", "network_provider": true },
+    "treatment": {
+      "type": "inpatient",
+      "admission_hours": 72,
+      "diagnosis": "Unspecified non-cardiac chest discomfort without diagnostic confirmation",
+      "procedure": "Observation and empirical intravenous analgesics",
+      "pre_existing": false,
+      "experimental": false
+    },
+    "expenses_inr": {
+      "room": 18000,
+      "doctor_fees": 12000,
+      "medicines_diagnostics": 25000,
+      "pre_hospitalization": 0,
+      "post_hospitalization": 0,
+      "ambulance": 0
+    },
+    "documents": ["claim_form", "interim_bill"],
+    "task": "Determine admissibility when admission is primarily diagnostic/observational without confirmed pathology or active medical intervention."
+  },
+  {
+    "case_id": "CUST-002",
+    "policy_id": "USGIC-CSC-2017-2018",
+    "policy_start_date": "2024-06-01",
+    "claim_date": "2026-02-10",
+    "sum_insured_inr": 400000,
+    "continuous_coverage_months": 20,
+    "prior_insurer_continuous_years": 0,
+    "patient": { "age": 55 },
+    "hospital": { "name": "Global Multispeciality", "network_provider": true },
+    "treatment": {
+      "type": "inpatient",
+      "admission_hours": 120,
+      "diagnosis": "Bilateral Osteoarthritis Knee",
+      "procedure": "Total Knee Replacement",
+      "pre_existing": false,
+      "experimental": false
+    },
+    "expenses_inr": {
+      "room": 35000,
+      "doctor_fees": 60000,
+      "medicines_diagnostics": 140000,
+      "pre_hospitalization": 5000,
+      "post_hospitalization": 10000,
+      "ambulance": 0
+    },
+    "documents": ["claim_form", "discharge_summary", "itemized_bill"],
+    "task": "Assess admissibility under the 2-year specific illness/joint replacement waiting period clause."
+  },
+  {
+    "case_id": "CUST-003",
+    "policy_id": "USGIC-CSC-2017-2018",
+    "policy_start_date": "2023-01-01",
+    "claim_date": "2026-05-20",
+    "sum_insured_inr": 200000,
+    "continuous_coverage_months": 40,
+    "prior_insurer_continuous_years": 0,
+    "patient": { "age": 28 },
+    "hospital": { "name": "City General Hospital", "network_provider": true },
+    "treatment": {
+      "type": "inpatient",
+      "admission_hours": 96,
+      "diagnosis": "Acute Gastroenteritis with severe dehydration",
+      "procedure": "IV hydration and antibiotic therapy",
+      "pre_existing": false,
+      "experimental": false
+    },
+    "expenses_inr": {
+      "room": 16000,
+      "doctor_fees": 10000,
+      "medicines_diagnostics": 24000,
+      "pre_hospitalization": 2000,
+      "post_hospitalization": 3000,
+      "ambulance": 3500
+    },
+    "documents": ["claim_form", "discharge_summary", "itemized_bill", "ambulance_receipt"],
+    "task": "Evaluate hospital stay where daily room rent (Rs 4,000/day for 4 days) exceeds 1% of Sum Insured (Rs 2,000/day) and ambulance expense exceeds policy limit."
+  },
+  {
+    "case_id": "CUST-004",
+    "policy_id": "USGIC-CSC-2017-2018",
+    "policy_start_date": "2024-01-01",
+    "claim_date": "2026-07-15",
+    "sum_insured_inr": 500000,
+    "continuous_coverage_months": 30,
+    "prior_insurer_continuous_years": 0,
+    "patient": { "age": 60 },
+    "hospital": { "name": "Community Health Nursing Home", "network_provider": false },
+    "treatment": {
+      "type": "inpatient",
+      "admission_hours": 48,
+      "diagnosis": "Bronchopneumonia",
+      "procedure": "Antibiotic regimen and nebulization",
+      "pre_existing": false,
+      "experimental": false
+    },
+    "expenses_inr": {
+      "room": 10000,
+      "doctor_fees": 15000,
+      "medicines_diagnostics": 30000,
+      "pre_hospitalization": 0,
+      "post_hospitalization": 0,
+      "ambulance": 0
+    },
+    "documents": ["claim_form"],
+    "evidence_context": {
+      "hospital_registered": false,
+      "hospital_minimum_criteria_documented": false,
+      "medical_necessity_confirmed": null
+    },
+    "task": "Evaluate claim where facility has fewer than 10 inpatient beds and lacks registered nurse staff required by policy hospital criteria."
+  },
+  {
+    "case_id": "CUST-005",
+    "policy_id": "USGIC-CSC-2017-2018",
+    "policy_start_date": "2024-01-01",
+    "claim_date": "2026-08-01",
+    "sum_insured_inr": 500000,
+    "continuous_coverage_months": 31,
+    "prior_insurer_continuous_years": 0,
+    "patient": { "age": 32 },
+    "hospital": { "name": "Metro Surgical Center", "network_provider": true },
+    "treatment": {
+      "type": "inpatient",
+      "admission_hours": 72,
+      "diagnosis": "Nasal septum deviation with breathing difficulty and aesthetic rhinoplasty",
+      "procedure": "Septoplasty with cosmetic nasal reshaping",
+      "pre_existing": false,
+      "experimental": false
+    },
+    "expenses_inr": {
+      "room": 15000,
+      "doctor_fees": 40000,
+      "medicines_diagnostics": 45000,
+      "pre_hospitalization": 4000,
+      "post_hospitalization": 5000,
+      "ambulance": 0
+    },
+    "documents": ["claim_form", "discharge_summary", "itemized_bill"],
+    "task": "Adjudicate mixed surgical claim containing both medically indicated functional repair (Septoplasty) and aesthetic cosmetic modification."
+  }
+]
