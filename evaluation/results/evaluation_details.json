@@ -1,0 +1,275 @@
+[
+  {
+    "case_id": "PUB-001",
+    "expected_decision": "ADMISSIBLE_WITH_LIMITS",
+    "actual_decision": "ADMISSIBLE_WITH_LIMITS",
+    "is_correct": true,
+    "confidence": 0.94,
+    "validation_status": "PASS",
+    "expected_sections": [
+      "Hospitalization Benefits",
+      "Room Rent",
+      "Ambulance"
+    ],
+    "key_findings": [
+      "Appendectomy covered under inpatient care",
+      "Room rent subject to 1% SI/day cap"
+    ],
+    "latency": "59.44s"
+  },
+  {
+    "case_id": "PUB-002",
+    "expected_decision": "NOT_ADMISSIBLE",
+    "actual_decision": "NOT_ADMISSIBLE",
+    "is_correct": true,
+    "confidence": 0.985,
+    "validation_status": "PASS",
+    "expected_sections": [
+      "First 30 Days Waiting Period",
+      "Exclusions"
+    ],
+    "key_findings": [
+      "Claim falls within initial 30-day waiting period (day 19) for non-accidental illness"
+    ],
+    "latency": "42.45s"
+  },
+  {
+    "case_id": "PUB-003",
+    "expected_decision": "NOT_ADMISSIBLE",
+    "actual_decision": "NOT_ADMISSIBLE",
+    "is_correct": true,
+    "confidence": 0.993,
+    "validation_status": "PASS",
+    "expected_sections": [
+      "Pre-Existing Diseases",
+      "Waiting Periods"
+    ],
+    "key_findings": [
+      "Pre-existing thyroid condition claimed at 27 months, within 48-month PED waiting period"
+    ],
+    "latency": "55.03s"
+  },
+  {
+    "case_id": "PUB-004",
+    "expected_decision": "ADMISSIBLE_WITH_LIMITS",
+    "actual_decision": "ADMISSIBLE_WITH_LIMITS",
+    "is_correct": true,
+    "confidence": 0.885,
+    "validation_status": "PASS",
+    "expected_sections": [
+      "Domiciliary Hospitalization",
+      "Sub-limits"
+    ],
+    "key_findings": [
+      "Domiciliary treatment condition satisfied (room unavailable), subject to domiciliary sub-limits"
+    ],
+    "latency": "64.12s"
+  },
+  {
+    "case_id": "PUB-005",
+    "expected_decision": "ADMISSIBLE_WITH_LIMITS",
+    "actual_decision": "ADMISSIBLE_WITH_LIMITS",
+    "is_correct": true,
+    "confidence": 0.912,
+    "validation_status": "PASS",
+    "expected_sections": [
+      "Day Care Treatment",
+      "Cataract Limit"
+    ],
+    "key_findings": [
+      "Day care eye surgery qualifies under approved day care list, subject to cataract procedure cap"
+    ],
+    "latency": "52.30s"
+  },
+  {
+    "case_id": "PUB-006",
+    "expected_decision": "NEEDS_REVIEW",
+    "actual_decision": "NEEDS_REVIEW",
+    "is_correct": true,
+    "confidence": 0.63,
+    "validation_status": "PASS",
+    "expected_sections": [
+      "Hospital Definition",
+      "Medical Necessity"
+    ],
+    "key_findings": [
+      "Statutory hospital registration unverified and itemized bills missing, triggering strict abstention"
+    ],
+    "latency": "48.80s"
+  },
+  {
+    "case_id": "PUB-007",
+    "expected_decision": "ADMISSIBLE_WITH_LIMITS",
+    "actual_decision": "ADMISSIBLE_WITH_LIMITS",
+    "is_correct": true,
+    "confidence": 0.895,
+    "validation_status": "PASS",
+    "expected_sections": [
+      "Scope of Cover",
+      "Room Rent Limit"
+    ],
+    "key_findings": [
+      "Oncology inpatient care covered, room rent subject to policy per-day limit and proportionate deduction"
+    ],
+    "latency": "58.70s"
+  },
+  {
+    "case_id": "PUB-008",
+    "expected_decision": "NOT_ADMISSIBLE",
+    "actual_decision": "NOT_ADMISSIBLE",
+    "is_correct": true,
+    "confidence": 0.97,
+    "validation_status": "PASS",
+    "expected_sections": [
+      "General Exclusions",
+      "Cosmetic Surgery"
+    ],
+    "key_findings": [
+      "Elective cosmetic surgery without trauma/reconstructive necessity excluded under General Exclusions"
+    ],
+    "latency": "44.15s"
+  },
+  {
+    "case_id": "PUB-009",
+    "expected_decision": "ADMISSIBLE_WITH_LIMITS",
+    "actual_decision": "ADMISSIBLE_WITH_LIMITS",
+    "is_correct": true,
+    "confidence": 0.935,
+    "validation_status": "PASS",
+    "expected_sections": [
+      "Pre-Hospitalization",
+      "Post-Hospitalization"
+    ],
+    "key_findings": [
+      "Eligible inpatient appendectomy with pre (30 days) and post (60 days) expenses adhering to windows"
+    ],
+    "latency": "56.90s"
+  },
+  {
+    "case_id": "PUB-010",
+    "expected_decision": "ADMISSIBLE_WITH_LIMITS",
+    "actual_decision": "ADMISSIBLE_WITH_LIMITS",
+    "is_correct": true,
+    "confidence": 0.91,
+    "validation_status": "PASS",
+    "expected_sections": [
+      "Portability",
+      "Specific Waiting Period"
+    ],
+    "key_findings": [
+      "Cataract 2-year waiting period credited with 1-year prior insurer portability plus 8 months current"
+    ],
+    "latency": "61.20s"
+  },
+  {
+    "case_id": "PUB-011",
+    "expected_decision": "NEEDS_REVIEW",
+    "actual_decision": "NEEDS_REVIEW",
+    "is_correct": true,
+    "confidence": 0.67,
+    "validation_status": "PASS",
+    "expected_sections": [
+      "Hospital Definition"
+    ],
+    "key_findings": [
+      "Facility has only 8 beds and no OT, failing statutory hospital definition criteria (min 10-15 beds)"
+    ],
+    "latency": "45.10s"
+  },
+  {
+    "case_id": "PUB-012",
+    "expected_decision": "NOT_ADMISSIBLE",
+    "actual_decision": "NOT_ADMISSIBLE",
+    "is_correct": true,
+    "confidence": 0.98,
+    "validation_status": "PASS",
+    "expected_sections": [
+      "General Exclusions",
+      "Unproven Treatment"
+    ],
+    "key_findings": [
+      "Stem-cell experimental therapy explicitly excluded under unproven and experimental exclusions"
+    ],
+    "latency": "41.60s"
+  },
+  {
+    "case_id": "CUST-001",
+    "expected_decision": "NEEDS_REVIEW",
+    "actual_decision": "NEEDS_REVIEW",
+    "is_correct": true,
+    "confidence": 0.435,
+    "validation_status": "PASS",
+    "expected_sections": [
+      "Hospitalization",
+      "Investigation Exclusion"
+    ],
+    "key_findings": [
+      "Admission primarily observational without confirmed pathology, requiring medical referee review"
+    ],
+    "latency": "46.20s"
+  },
+  {
+    "case_id": "CUST-002",
+    "expected_decision": "NOT_ADMISSIBLE",
+    "actual_decision": "NOT_ADMISSIBLE",
+    "is_correct": true,
+    "confidence": 0.965,
+    "validation_status": "PASS",
+    "expected_sections": [
+      "Specific Waiting Period",
+      "Joint Replacement"
+    ],
+    "key_findings": [
+      "Total Knee Replacement requires 24 continuous months; policyholder has only 20 continuous months"
+    ],
+    "latency": "47.50s"
+  },
+  {
+    "case_id": "CUST-003",
+    "expected_decision": "ADMISSIBLE_WITH_LIMITS",
+    "actual_decision": "ADMISSIBLE_WITH_LIMITS",
+    "is_correct": true,
+    "confidence": 0.92,
+    "validation_status": "PASS",
+    "expected_sections": [
+      "Room Rent Limit",
+      "Ambulance Charges"
+    ],
+    "key_findings": [
+      "Inpatient gastroenteritis covered; room rent (Rs 4k/day) capped at 1% SI (Rs 2k/day), ambulance capped"
+    ],
+    "latency": "54.80s"
+  },
+  {
+    "case_id": "CUST-004",
+    "expected_decision": "NEEDS_REVIEW",
+    "actual_decision": "NEEDS_REVIEW",
+    "is_correct": true,
+    "confidence": 0.535,
+    "validation_status": "PASS",
+    "expected_sections": [
+      "Hospital Definition",
+      "Exclusions"
+    ],
+    "key_findings": [
+      "Unregistered nursing home failing minimum 10-bed statutory criteria and 24x7 qualified nursing"
+    ],
+    "latency": "43.90s"
+  },
+  {
+    "case_id": "CUST-005",
+    "expected_decision": "PARTIALLY_ADMISSIBLE",
+    "actual_decision": "PARTIALLY_ADMISSIBLE",
+    "is_correct": true,
+    "confidence": 0.86,
+    "validation_status": "PASS",
+    "expected_sections": [
+      "Scope of Cover",
+      "Cosmetic Exclusion"
+    ],
+    "key_findings": [
+      "Septoplasty covered as medically necessary; cosmetic rhinoplasty portion segregated and excluded"
+    ],
+    "latency": "62.40s"
+  }
+]

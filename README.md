@@ -1,0 +1,160 @@
+# Policy-Aware Multi-Agent RAG Claim Decision Engine
+
+[![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/downloads/release/python-3119/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.104+-009688.svg)](https://fastapi.tiangolo.com)
+[![Streamlit](https://img.shields.io/badge/Streamlit-1.29+-FF4B4B.svg)](https://streamlit.io)
+[![LangGraph](https://img.shields.io/badge/LangGraph-Multi--Agent-orange.svg)](https://github.com/langchain-ai/langgraph)
+
+A production-style AI system that analyzes health-insurance claim cases using Retrieval-Augmented Generation (RAG) and a genuine multi-agent workflow. The policy document is treated as the sole authoritative source of truth.
+
+---
+
+## 1. System Architecture
+
+The engine employs a **5-Agent Workflow** orchestrated via **LangGraph**, backed by a **Hybrid Retrieval Pipeline** (BGE dense embeddings + BM25s sparse index + RRF + Cross-Encoder Reranker).
+
+```mermaid
+flowchart TD
+    subgraph "Ingestion & Indexing"
+        PDF["Policy PDF\n(UNIHLIP18004V011718)"] --> Parser["Section-Aware\nPDF Parser"]
+        Parser --> Chunker["Semantic Hierarchy\nChunker"]
+        Chunker --> FAISS["FAISS Index\n(BAAI/bge-small-en-v1.5)"]
+        Chunker --> BM25["BM25 Index\n(bm25s Lucene + Porter)"]
+    end
+
+    subgraph "API & UI Layer"
+        UI["Streamlit Frontend\n(Port 7860)"] --> API["FastAPI Backend\n/analyze, /health (Port 8000)"]
+    end
+
+    subgraph "LangGraph Multi-Agent Adjudication Workflow"
+        API --> CA["1. Case Analysis Agent\n(Extracts facts, defines investigation dimensions)"]
+        CA --> PE["2. Policy Evidence Agent\n(Runs parallel dimension-specific hybrid retrieval)"]
+        PE --> CE["3. Coverage & Exclusion Agent\n(Grounds decisions on policy clauses, limits, waiting periods)"]
+        CE --> DA["4. Decision Agent\n(Synthesizes verdict, limits, citations, evidence confidence)"]
+        DA --> VA["5. Validation Agent\n(Verifies claim-evidence fidelity quality gate)"]
+        
+        VA -->|PASS| FIN["Authoritative Decision Output"]
+        VA -->|FAIL (Retry <= 2)| CE
+        VA -->|Max Retries Exceeded| ABS["NEEDS_REVIEW Abstention"]
+    end
+
+    subgraph "Dimension-Specific Hybrid Retrieval"
+        PE -.-> D1["Coverage Query"]
+        PE -.-> D2["Waiting Period Query"]
+        PE -.-> D3["Exclusions Query"]
+        PE -.-> D4["Hospital Definition Query"]
+        D1 & D2 & D3 & D4 --> HR["Hybrid Retriever\n(Dense + BM25s)"]
+        HR --> RRF["Reciprocal Rank Fusion\n(RRF k=60)"]
+        RRF --> RERANK["Cross-Encoder Reranker\n(ms-marco-MiniLM-L-6-v2)"]
+        RERANK -.-> PE
+    end
+```
+
+---
+
+## 2. Genuine Multi-Agent Workflow
+
+The system enforces strict functional separation:
+1. **Case Analysis Agent**: Extracts claim parameters and formulates dimension-specific investigation questions. **Hard rule:** It never makes policy conclusions; it only establishes what must be investigated.
+2. **Policy Evidence Agent**: Retrieval specialist (no LLM). Executes independent hybrid retrieval queries across each dimension to ensure broad policy clauses do not drown out specific exclusions or waiting periods.
+3. **Coverage & Exclusion Agent**: Core reasoning agent. Analyzes evidence against claim facts, establishes waiting periods, exclusions, definitions, and category sub-limits.
+4. **Decision Agent**: Synthesizes specialist findings into the final decision, compiling citations and computing an **evidence-based composite confidence score** from observable signals.
+5. **Validation Agent**: Quality gate. Verifies that every key finding is directly supported by its cited policy text. If unsupported claims or hallucinations are detected, it triggers a feedback retry loop.
+
+---
+
+## 3. Decision Contract & Statuses
+
+API responses strictly adhere to the structured decision schema:
+- `ADMISSIBLE`: Full coverage with no material deductions.
+- `ADMISSIBLE_WITH_LIMITS`: Covered, but subject to room rent caps (1% SI), ambulance limits, or waiting periods.
+- `PARTIALLY_ADMISSIBLE`: Only eligible procedures covered; non-payable items segregated.
+- `NOT_ADMISSIBLE`: Policy exclusions (e.g., cosmetic surgery, unproven treatments, initial 30-day waiting period).
+- `NEEDS_REVIEW`: Abstains safely when evidence is missing (e.g., unverified hospital registration, unknown necessity).
+
+---
+
+## 4. Local Setup & Quickstart
+
+### Prerequisites
+- Python 3.11+
+- Git
+
+### Installation
+```bash
+git clone <your-repo-url>
+cd Aptino_Aniket
+
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+```
+
+### Configure Environment Variables
+Copy `.env.example` to `.env` and configure your LLM provider:
+```bash
+cp .env.example .env
+```
+Edit `.env`:
+```ini
+LLM_PROVIDER=xkiro
+LLM_API_KEY=your-xkiro-or-openai-compatible-api-key
+LLM_REASONING_MODEL=qwen/qwen3.8-max:free
+LLM_FAST_MODEL=qwen/qwen3.7-flash:free
+LLM_FALLBACK_MODEL=minimax/minimax-m3:free
+```
+
+### Launch Services
+Start the FastAPI backend:
+```bash
+uvicorn src.api.main:app --host 0.0.0.0 --port 8000 --reload
+```
+In another terminal, start the Streamlit frontend:
+```bash
+API_BASE_URL="http://localhost:8000" streamlit run frontend/app.py
+```
+
+---
+
+## 5. Running the Evaluation Suite
+
+The assignment requires evaluating all 12 public cases and candidate-created custom test cases:
+```bash
+python evaluation/run_evaluation.py --output evaluation/results
+```
+This produces:
+- `evaluation/results/evaluation_report.md`: Markdown summary table
+- `evaluation/results/evaluation_summary.json`: Aggregate metrics (Accuracy, Section Recall, Citation Fidelity)
+- `evaluation/results/evaluation_details.json`: Full case-by-case adjudication trace
+
+---
+
+## 6. Design Decisions, Trade-offs & Known Limitations
+
+| Decision | Rationale | Trade-off |
+| :--- | :--- | :--- |
+| **BGE-small + BM25s Hybrid** | Dense vectors capture conceptual intent; BM25s captures strict policy clauses and codes. | Slight additional indexing time. |
+| **Dimension-Specific Retrieval** | Prevents general hospitalization clauses from dominating specific exclusion or waiting period queries. | Makes multiple retrieval passes per claim. |
+| **Evidence-Based Confidence** | Calculates confidence deterministically from evidence coverage, validation results, and missing fields rather than arbitrary LLM output. | Not a frequentist statistical probability. |
+| **Strict Abstention Policy** | When hospital credentials or medical necessity are unspecified, forces `NEEDS_REVIEW` to prevent hallucinated liability. | Requires manual human referee intervention on ambiguous claims. |
+
+---
+
+## 7. Documentation & Deliverables
+
+- 📘 [**Architecture & Design Note (1–2 Pages)**](ARCHITECTURE.md): Detailed explanation of agent boundaries, LangGraph state machine, dimension-isolated hybrid retrieval, non-probabilistic confidence decomposition, and trade-offs.
+- 🛠️ [**Failure Analysis & Iterative Engineering Report**](FAILURE_ANALYSIS.md): Comprehensive review of 3 real-world failure cases (JSON truncation, 120s timeout, and sub-limit validation rejections) and their architectural resolutions.
+
+---
+
+## 8. Deployment
+
+A production-ready `Dockerfile` is provided for zero-friction deployment to **Hugging Face Spaces** (Docker SDK, 16GB free RAM), **Render**, or **Streamlit Community Cloud**.
+```bash
+docker build -t claim-decision-engine .
+docker run -p 7860:7860 -e LLM_API_KEY="your-key" claim-decision-engine
+```
+

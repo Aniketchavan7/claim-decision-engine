@@ -1,0 +1,104 @@
+{
+  "PUB-001": {
+    "expected_decision": "ADMISSIBLE_WITH_LIMITS",
+    "expected_policy_sections": ["Hospitalization Benefits", "Room Rent", "Ambulance"],
+    "expected_reason": "Inpatient appendectomy is covered after 14 months continuous coverage (surpassing initial 30-day waiting period). Standard room rent limit (1% of SI per day) and ambulance sub-limits apply.",
+    "key_dimensions": ["coverage", "limits"]
+  },
+  "PUB-002": {
+    "expected_decision": "NOT_ADMISSIBLE",
+    "expected_policy_sections": ["First 30 Days Waiting Period", "Exclusions"],
+    "expected_reason": "Claim occurred within the first 30 days of initial inception with continuous_coverage_months = 0 for a non-accidental illness (Viral fever).",
+    "key_dimensions": ["waiting_period"]
+  },
+  "PUB-003": {
+    "expected_decision": "NOT_ADMISSIBLE",
+    "expected_policy_sections": ["Pre-Existing Diseases", "Waiting Periods"],
+    "expected_reason": "Pre-existing thyroid condition claimed at 27 months continuous coverage, which falls within the mandatory 48-month (4-year) Pre-Existing Disease waiting period.",
+    "key_dimensions": ["waiting_period"]
+  },
+  "PUB-004": {
+    "expected_decision": "ADMISSIBLE_WITH_LIMITS",
+    "expected_policy_sections": ["Domiciliary Hospitalization", "Sub-limits"],
+    "expected_reason": "Domiciliary treatment satisfies policy conditions (hospital room unavailable), but is restricted by policy sub-limits on domiciliary hospitalization expenses.",
+    "key_dimensions": ["domiciliary_conditions", "limits"]
+  },
+  "PUB-005": {
+    "expected_decision": "ADMISSIBLE_WITH_LIMITS",
+    "expected_policy_sections": ["Day Care Treatment", "Cataract Limit"],
+    "expected_reason": "Day care procedure (cataract eye surgery) under 24 hours is recognized under the approved day-care schedule, subject to specific cataract procedure limit.",
+    "key_dimensions": ["coverage", "limits"]
+  },
+  "PUB-006": {
+    "expected_decision": "NEEDS_REVIEW",
+    "expected_policy_sections": ["Hospital Definition", "Medical Necessity"],
+    "expected_reason": "Critical evidence gaps: hospital registration and medical necessity are unconfirmed, preventing automated approval under policy hospital criteria.",
+    "key_dimensions": ["hospital_definition", "medical_necessity"]
+  },
+  "PUB-007": {
+    "expected_decision": "ADMISSIBLE_WITH_LIMITS",
+    "expected_policy_sections": ["Scope of Cover", "Room Rent Limit"],
+    "expected_reason": "Cancer hospitalization is covered under inpatient benefits, but room rent and physician charges remain bound to policy per-day room caps and proportionate deductions.",
+    "key_dimensions": ["coverage", "limits"]
+  },
+  "PUB-008": {
+    "expected_decision": "NOT_ADMISSIBLE",
+    "expected_policy_sections": ["General Exclusions", "Cosmetic Surgery"],
+    "expected_reason": "Pure cosmetic surgery without reconstructive necessity is an explicit general policy exclusion.",
+    "key_dimensions": ["exclusion"]
+  },
+  "PUB-009": {
+    "expected_decision": "ADMISSIBLE_WITH_LIMITS",
+    "expected_policy_sections": ["Pre-Hospitalization", "Post-Hospitalization"],
+    "expected_reason": "Appendectomy is admissible; pre-hospitalization (30 days) and post-hospitalization (60 days) expenses fall strictly within the allowed eligibility windows.",
+    "key_dimensions": ["coverage", "pre_post_hospitalization"]
+  },
+  "PUB-010": {
+    "expected_decision": "ADMISSIBLE_WITH_LIMITS",
+    "expected_policy_sections": ["Portability", "Specific Waiting Period"],
+    "expected_reason": "Cataract requires a 2-year waiting period, but policy continuity with prior Indian insurer (1 year) plus current tenure (8 months) provides portability credit.",
+    "key_dimensions": ["portability", "waiting_period", "limits"]
+  },
+  "PUB-011": {
+    "expected_decision": "NEEDS_REVIEW",
+    "expected_policy_sections": ["Definition of Hospital"],
+    "expected_reason": "The facility is not registered and fails to document minimum hospital criteria (qualifying beds, OT, nursing staff). Safe decision cannot be reached without verified facility credentials.",
+    "key_dimensions": ["hospital_definition"]
+  },
+  "PUB-012": {
+    "expected_decision": "NOT_ADMISSIBLE",
+    "expected_policy_sections": ["General Exclusions", "Unproven or Experimental Treatment"],
+    "expected_reason": "Experimental therapy and unproven treatments are explicitly excluded from coverage under general exclusions.",
+    "key_dimensions": ["exclusion"]
+  },
+  "CUST-001": {
+    "expected_decision": "NEEDS_REVIEW",
+    "expected_policy_sections": ["Hospitalization", "Investigation and Evaluation Exclusion"],
+    "expected_reason": "Admission was for observation and pain relief without a confirmed pathological diagnosis or active surgical/medical treatment, requiring medical referee review.",
+    "key_dimensions": ["coverage", "medical_necessity"]
+  },
+  "CUST-002": {
+    "expected_decision": "NOT_ADMISSIBLE",
+    "expected_policy_sections": ["Waiting Period for Specific Diseases", "Joint Replacement"],
+    "expected_reason": "Joint replacement for non-accidental osteoarthritis has a mandatory 24-month waiting period. The policyholder only has 20 continuous months of coverage.",
+    "key_dimensions": ["waiting_period"]
+  },
+  "CUST-003": {
+    "expected_decision": "ADMISSIBLE_WITH_LIMITS",
+    "expected_policy_sections": ["Room Rent Limit", "Ambulance Charges"],
+    "expected_reason": "Acute gastroenteritis is covered, but room rent claimed at Rs 4,000/day exceeds 1% of Sum Insured (Rs 2,000/day limit) and ambulance claimed at Rs 3,500 exceeds the policy cap.",
+    "key_dimensions": ["coverage", "limits"]
+  },
+  "CUST-004": {
+    "expected_decision": "NEEDS_REVIEW",
+    "expected_policy_sections": ["Definition of Hospital", "Exclusions"],
+    "expected_reason": "The nursing home fails the statutory bed criteria and staffing criteria defined in the policy, leading to abstention.",
+    "key_dimensions": ["hospital_definition"]
+  },
+  "CUST-005": {
+    "expected_decision": "PARTIALLY_ADMISSIBLE",
+    "expected_policy_sections": ["Scope of Cover", "Cosmetic Surgery Exclusion"],
+    "expected_reason": "Functional Septoplasty for airway obstruction is covered, but aesthetic rhinoplasty portion is non-payable under the cosmetic surgery exclusion.",
+    "key_dimensions": ["coverage", "exclusion"]
+  }
+}
