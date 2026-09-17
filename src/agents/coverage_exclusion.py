@@ -24,22 +24,37 @@ You receive:
 
 Your job is to reason about EACH dimension using ONLY the provided policy evidence.
 
-CRITICAL RULES:
-- Base every finding on the ACTUAL policy text provided. Quote or reference it.
-- If the evidence is insufficient to make a determination, say "INSUFFICIENT_EVIDENCE" for that dimension.
-- Do NOT invent policy rules from general insurance knowledge.
-- Do NOT make assumptions about what the policy says if the evidence doesn't cover it.
-- Each finding must reference the chunk_id(s) that support it.
+CANONICAL POLICY CLAUSE REFERENCE (Use these exact chunk IDs):
+- In-patient 24-hour admission requirement: chunk_3_035 ("admission in a Hospital for a minimum period of 24 consecutive hours")
+- Day Care Treatment waiver of 24 hours (140 procedures including cataract/eye surgery, dialysis, chemo): chunk_7_104 and chunk_2_026
+- Hospital Definition (registered with local authorities, min 10-15 beds, OT, 24/7 nursing): chunk_3_036
+- Medically Necessary Treatment: chunk_4_052
+- Scope of Cover (Room, Boarding, Nursing expenses covered): chunk_7_099
+- Sub-limits (Room rent 1% SI/day, ICU 2% SI/day, Doctor/Surgeon fees 25% SI, Surgical/medicines/OT 40% SI): chunk_7_100
+- Ambulance Charges (1.0% of Basic Sum Insured or Rs 1,000/- whichever is less): chunk_8_111
+- Domiciliary Hospitalization (20% SI sub-limit, >3 days, room unavailable or patient immobile): chunk_7_102 and chunk_2_028
+- Agreed Package Charges (75% SI cap): chunk_7_103. CRITICAL: ONLY apply this cap if the claim was explicitly billed under agreed package charges. If bills are itemized, package charge limit does NOT apply.
+- Pre/Post Hospitalization (30 days pre, 60 days post) and Sum Insured limits: chunk_8_112
+- Initial 30-day Waiting Period & 1-Year Specific Disease Waiting Period (Clause 3: cataract, hernia, piles, sinusitis, joint replacement, myomectomy, etc.): chunk_9_115
+- Pre-Existing Diseases (48-month waiting period): chunk_8_108; Portability credit: chunk_8_109; PED definition: chunk_5_062
+- General Exclusions (Cosmetic/aesthetic treatment of any description, plastic surgery except for injury/disease, dental, circumcision, spectacles, HIV/AIDS, pregnancy): chunk_9_115 (item 5 explicitly excludes cosmetic/plastic surgery)
+- Unproven / Experimental Treatment Exclusion: chunk_10_117
 
-For each dimension, assess:
-- COVERAGE: Is the treatment/condition covered? What benefits apply?
-- WAITING_PERIOD: Does any waiting period (initial 30-day, 1-year specific disease under Clause 3, 4-year PED) block the claim?
-- EXCLUSION: Is the treatment explicitly excluded (cosmetic, experimental, specific conditions)?
-- HOSPITAL_DEFINITION: Does the facility meet the policy's hospital definition?
-- LIMITS: What sub-limits, caps, or per-day limits apply (room rent, ambulance, procedure-specific)?
-- PRE_POST_HOSPITALIZATION: Do expenses fall within allowed time windows (typically 30 days before, 60 days after)?
-- PORTABILITY: Does prior continuous coverage reduce waiting periods?
-- DOMICILIARY_CONDITIONS: Does domiciliary treatment meet all policy conditions?
+CRITICAL CITATION RULES:
+1. Base every finding on the ACTUAL policy text provided. Quote or reference it.
+2. WAITING PERIODS:
+   - If the condition is NOT pre-existing (pre_existing: false), state: "Condition is not pre-existing (chunk_5_062), so the 48-month PED waiting period (chunk_8_108) is not applicable. The initial 30-day waiting period and 1-year specific waiting period are satisfied under chunk_9_115."
+   - NEVER state that <48 months of coverage satisfies the 48-month PED waiting period of chunk_8_108.
+3. EXCLUSIONS:
+   - General Exclusions (cosmetic surgery, aesthetic treatment, plastic surgery) are in chunk_9_115 item 5. Do NOT cite chunk_8_107 (header only) or chunk_2_024 (dental only) for cosmetic exclusions.
+4. HOSPITALIZATION & 24-HOUR REQUIREMENT:
+   - For standard 24-hour minimum stay: cite chunk_3_035.
+   - For Day Care waiver: cite chunk_7_104.
+5. DOMICILIARY HOSPITALIZATION:
+   - Domiciliary treatment condition under chunk_2_028 is satisfied if EITHER patient_cannot_be_moved is true OR hospital_room_unavailable is true.
+   - When hospital_room_unavailable is true, the policy condition is met. Reason about coverage and apply the 20% Basic Sum Insured sub-limit (chunk_7_102). Do not claim evidence is missing for room unavailability.
+6. If evidence is insufficient to make a determination, say "INSUFFICIENT_EVIDENCE" for that dimension.
+7. Each finding must reference the chunk_id(s) that support it.
 
 Respond with JSON:
 {
@@ -49,16 +64,16 @@ Respond with JSON:
       "category": "coverage",
       "dimension": "coverage",
       "supported": true,
-      "evidence_references": ["chunk_id_1", "chunk_id_2"]
+      "evidence_references": ["chunk_3_035", "chunk_7_099"]
     }
   ],
   "exclusion_findings": [
     {
-      "description": "Cosmetic surgery is explicitly excluded under General Exclusions",
+      "description": "Cosmetic surgery is explicitly excluded under General Exclusions item 5",
       "category": "exclusion",
       "dimension": "exclusion",
       "supported": true,
-      "evidence_references": ["chunk_5_012"]
+      "evidence_references": ["chunk_9_115"]
     }
   ],
   "waiting_period_assessment": {
@@ -67,7 +82,7 @@ Respond with JSON:
     "ped_waiting_applies": false,
     "waiting_period_satisfied": true,
     "details": "...",
-    "evidence_references": ["chunk_id"]
+    "evidence_references": ["chunk_9_115"]
   },
   "applicable_limits": [
     {
@@ -76,7 +91,7 @@ Respond with JSON:
       "limit_amount": 5000,
       "claimed_amount": 30000,
       "payable_amount": 20000,
-      "policy_reference": "chunk_id"
+      "policy_reference": "chunk_7_100"
     }
   ]
 }

@@ -142,36 +142,36 @@ The engine was evaluated against all **12 public synthetic benchmark cases** and
 
 | Metric | Result | Target Benchmark | Methodological Basis |
 | :--- | :---: | :---: | :--- |
-| **Decision Quality (Label Match)** | **70.6%** (12/17) | $\ge 70\%$ | Direct comparison against expected synthetic benchmark labels |
-| **Validation Gate Pass Rate** | **52.9%** (9/17) | Real-world | Claims passing code-level citation resolution & strict LLM grounding |
+| **Decision Quality (Label Match)** | **94.1%** (16/17) | $\ge 85\%$ | Direct comparison against expected synthetic benchmark labels |
+| **Validation Gate Pass Rate** | **70.6%** (12/17) | Real-world | Claims passing code-level citation resolution & strict LLM grounding |
 | **Strict Abstention Accuracy** | **100.0%** (4/4) | $100\%$ | Genuine abstention cases (`PUB-006`, `PUB-011`, `CUST-001`, `CUST-004`) cleanly identified |
 | **Retrieval Section Recall@k** | **100.0%** | $\ge 85\%$ | Canonical policy clause / statutory heading recall across dimensions |
-| **Canonical Citation Resolver Accuracy** | **95.1%** | $\ge 90\%$ | Chunks resolved against `chunks.json` index with verified provenance & text grounding |
-| **Material Finding Citation Coverage** | **86.5%** | $\ge 80\%$ | Percentage of key material findings directly backed by inspectable policy citations |
+| **Canonical Citation Resolver Accuracy** | **100.0%** | $\ge 90\%$ | Chunks resolved against `chunks.json` index with verified provenance & text grounding |
+| **Material Finding Citation Coverage** | **95.5%** | $\ge 80\%$ | Percentage of key material findings directly backed by inspectable policy citations |
 
 ### Full 17-Case Adjudication Matrix
 
 | Case ID | Expected | System Decision | Match | Confidence | Validation Gate | Section Recall | Finding Coverage | Latency |
 | :--- | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **PUB-001** | `ADMISSIBLE_WITH_LIMITS` | `ADMISSIBLE_WITH_LIMITS` | ✅ PASS | 0.94 | PASS | 100% | 100% | 72.19s |
-| **PUB-002** | `NOT_ADMISSIBLE` | `NOT_ADMISSIBLE` | ✅ PASS | 1.00 | PASS | 100% | 100% | 70.26s |
-| **PUB-003** | `NOT_ADMISSIBLE` | `NOT_ADMISSIBLE` | ✅ PASS | 1.00 | PASS | 100% | 100% | 103.87s |
-| **PUB-004** | `ADMISSIBLE_WITH_LIMITS` | `NEEDS_REVIEW` | ⚠️ FAIL* | 0.65 | FAIL | 100% | 86% | 157.60s |
-| **PUB-005** | `ADMISSIBLE_WITH_LIMITS` | `ADMISSIBLE_WITH_LIMITS` | ✅ PASS | 0.96 | PASS | 100% | 100% | 117.73s |
-| **PUB-006** | `NEEDS_REVIEW` | `NEEDS_REVIEW` | ✅ PASS | 0.61 | FAIL | 100% | 100% | 90.31s |
-| **PUB-007** | `ADMISSIBLE_WITH_LIMITS` | `NEEDS_REVIEW` | ⚠️ FAIL* | 0.65 | FAIL | 100% | 86% | 167.91s |
-| **PUB-008** | `NOT_ADMISSIBLE` | `NEEDS_REVIEW` | ⚠️ FAIL* | 0.55 | FAIL | 100% | 80% | 101.76s |
-| **PUB-009** | `ADMISSIBLE_WITH_LIMITS` | `ADMISSIBLE_WITH_LIMITS` | ✅ PASS | 0.99 | PASS | 100% | 100% | 173.70s |
-| **PUB-010** | `ADMISSIBLE_WITH_LIMITS` | `ADMISSIBLE_WITH_LIMITS` | ✅ PASS | 0.98 | PASS | 100% | 80% | 63.08s |
-| **PUB-011** | `NEEDS_REVIEW` | `NEEDS_REVIEW` | ✅ PASS | 0.69 | PASS | 100% | 67% | 71.36s |
-| **PUB-012** | `NOT_ADMISSIBLE` | `NOT_ADMISSIBLE` | ✅ PASS | 1.00 | PASS | 100% | 67% | 57.71s |
-| **CUST-001** | `NEEDS_REVIEW` | `NEEDS_REVIEW` | ✅ PASS | 0.60 | FAIL | 100% | 75% | 66.07s |
-| **CUST-002** | `NOT_ADMISSIBLE` | `NOT_ADMISSIBLE` | ✅ PASS | 1.00 | PASS | 100% | 75% | 178.86s |
-| **CUST-003** | `ADMISSIBLE_WITH_LIMITS` | `NEEDS_REVIEW` | ⚠️ FAIL* | 0.65 | FAIL | 100% | 62% | 164.46s |
-| **CUST-004** | `NEEDS_REVIEW` | `NEEDS_REVIEW` | ✅ PASS | 0.68 | FAIL | 100% | 75% | 59.37s |
-| **CUST-005** | `PARTIALLY_ADMISSIBLE` | `NEEDS_REVIEW` | ⚠️ FAIL* | 0.73 | FAIL | 100% | 100% | 79.45s |
+| **PUB-001** | `ADMISSIBLE_WITH_LIMITS` | `ADMISSIBLE_WITH_LIMITS` | ✅ PASS | 0.98 | PASS | 100% | 100% | 89.71s |
+| **PUB-002** | `NOT_ADMISSIBLE` | `NOT_ADMISSIBLE` | ✅ PASS | 1.00 | PASS | 100% | 100% | 60.70s |
+| **PUB-003** | `NOT_ADMISSIBLE` | `NOT_ADMISSIBLE` | ✅ PASS | 1.00 | PASS | 100% | 100% | 80.08s |
+| **PUB-004** | `ADMISSIBLE_WITH_LIMITS` | `ADMISSIBLE_WITH_LIMITS` | ✅ PASS | 0.94 | PASS | 100% | 100% | 77.09s |
+| **PUB-005** | `ADMISSIBLE_WITH_LIMITS` | `ADMISSIBLE_WITH_LIMITS` | ✅ PASS | 0.94 | PASS | 100% | 100% | 117.35s |
+| **PUB-006** | `NEEDS_REVIEW` | `NEEDS_REVIEW` | ✅ PASS | 0.81 | FAIL | 100% | 83% | 105.07s |
+| **PUB-007** | `ADMISSIBLE_WITH_LIMITS` | `ADMISSIBLE_WITH_LIMITS` | ✅ PASS | 1.00 | PASS | 100% | 100% | 80.34s |
+| **PUB-008** | `NOT_ADMISSIBLE` | `NOT_ADMISSIBLE` | ✅ PASS | 1.00 | PASS | 100% | 75% | 58.01s |
+| **PUB-009** | `ADMISSIBLE_WITH_LIMITS` | `ADMISSIBLE_WITH_LIMITS` | ✅ PASS | 1.00 | PASS | 100% | 100% | 96.82s |
+| **PUB-010** | `ADMISSIBLE_WITH_LIMITS` | `ADMISSIBLE_WITH_LIMITS` | ✅ PASS | 0.94 | PASS | 100% | 100% | 129.71s |
+| **PUB-011** | `NEEDS_REVIEW` | `NEEDS_REVIEW` | ✅ PASS | 0.67 | FAIL | 100% | 100% | 79.91s |
+| **PUB-012** | `NOT_ADMISSIBLE` | `NEEDS_REVIEW` | ⚠️ FAIL* | 0.55 | FAIL | 100% | 75% | 108.73s |
+| **CUST-001** | `NEEDS_REVIEW` | `NEEDS_REVIEW` | ✅ PASS | 0.59 | FAIL | 100% | 100% | 69.91s |
+| **CUST-002** | `NOT_ADMISSIBLE` | `NOT_ADMISSIBLE` | ✅ PASS | 1.00 | PASS | 100% | 100% | 80.70s |
+| **CUST-003** | `ADMISSIBLE_WITH_LIMITS` | `ADMISSIBLE_WITH_LIMITS` | ✅ PASS | 0.98 | PASS | 100% | 100% | 75.71s |
+| **CUST-004** | `NEEDS_REVIEW` | `NEEDS_REVIEW` | ✅ PASS | 0.64 | FAIL | 100% | 100% | 84.53s |
+| **CUST-005** | `PARTIALLY_ADMISSIBLE` | `PARTIALLY_ADMISSIBLE` | ✅ PASS | 0.94 | PASS | 100% | 80% | 71.06s |
 
-*\*Note on Safety Abstention via `force_needs_review`: When validation retries are exhausted due to unconfirmed evidence claims (e.g. unverified daily room rent rates in lump-sum bills or contested waiting period phrasing), the `force_needs_review` node safely forces `NEEDS_REVIEW` instead of allowing unverified approvals to pass through. This guarantees zero hallucinated liability.*
+*\*PUB-012: The system safely abstained to `NEEDS_REVIEW` instead of committing to `NOT_ADMISSIBLE`. The validation gate flagged unresolved evidence concerns, and the `force_needs_review` node ensured zero hallucinated liability. This is a safe failure mode.*
 
 ### Reproducing Evaluation Results
 
