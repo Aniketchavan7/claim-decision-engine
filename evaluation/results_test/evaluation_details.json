@@ -1,0 +1,159 @@
+[
+  {
+    "case_id": "PUB-004",
+    "timestamp": "2026-09-17T12:28:21Z",
+    "expected_decision": "ADMISSIBLE_WITH_LIMITS",
+    "actual_decision": "ADMISSIBLE_WITH_LIMITS",
+    "is_correct": true,
+    "confidence": 0.963,
+    "validation_status": "PASS",
+    "validation_details": {
+      "status": "PASS",
+      "unsupported_claims": [],
+      "feedback": []
+    },
+    "key_findings": [
+      "Domiciliary treatment is covered when the patient cannot be moved to a hospital or when a hospital room is unavailable, satisfying conditions under chunk_2_028.",
+      "The treatment is medically necessary and prescribed by a Medical Practitioner, supported by the available doctor certificate (chunk_4_052).",
+      "Standard 24-hour hospitalization requirement is waived for domiciliary treatment per chunk_2_028 and chunk_3_035.",
+      "No general exclusions or experimental treatment exclusions apply to this claim (chunk_9_115, chunk_10_117).",
+      "All waiting periods including the initial 30-day and 1-year specific disease waiting periods are satisfied as the policy has been active for 28 months (chunk_9_115). The condition is not pre-existing, so the 48-month PED waiting period does not apply (chunk_8_108).",
+      "Domiciliary hospitalization expenses are subject to a maximum aggregate sub-limit of 20% of the Basic Sum Insured. For a sum insured of Rs 500,000, the cap is Rs 100,000 (chunk_7_102)."
+    ],
+    "finding_citation_coverage_pct": 100.0,
+    "applicable_limits": [
+      {
+        "limit_type": "domiciliary_hospitalization",
+        "description": "Expenses incurred for Domiciliary Hospitalization will be paid up to a maximum aggregate sub-limit of 20% of the Basic Sum Insured. 20% of Rs 500,000 is Rs 100,000. The claimed amount is Rs 105,000, so the payable amount is capped at Rs 100,000.",
+        "limit_amount": 100000,
+        "claimed_amount": 105000,
+        "payable_amount": 100000,
+        "policy_reference": "chunk_7_102"
+      }
+    ],
+    "missing_evidence": [
+      "specific_diagnosis_code_or_name",
+      "medical_justification_for_non_admission",
+      "proof_of_hospital_bed_unavailability"
+    ],
+    "retrieved_chunk_ids": [
+      "chunk_2_028",
+      "chunk_4_052",
+      "chunk_3_035",
+      "chunk_7_102",
+      "chunk_1_005",
+      "chunk_5_064",
+      "chunk_7_104",
+      "chunk_2_026",
+      "chunk_4_059",
+      "chunk_7_103",
+      "chunk_10_121",
+      "chunk_5_061",
+      "chunk_6_081",
+      "chunk_3_036",
+      "chunk_4_057",
+      "chunk_10_117",
+      "chunk_5_069",
+      "chunk_2_017",
+      "chunk_2_025",
+      "chunk_14_171",
+      "chunk_3_043",
+      "chunk_7_099",
+      "chunk_5_062",
+      "chunk_1_013",
+      "chunk_4_055",
+      "chunk_7_100",
+      "chunk_4_050",
+      "chunk_4_053",
+      "chunk_8_107",
+      "chunk_10_120",
+      "chunk_8_108",
+      "chunk_7_098",
+      "chunk_7_094",
+      "chunk_6_087",
+      "chunk_8_109",
+      "chunk_5_070",
+      "chunk_13_162",
+      "chunk_3_034",
+      "chunk_4_058",
+      "chunk_8_111",
+      "chunk_8_112",
+      "chunk_14_169",
+      "chunk_10_122",
+      "chunk_10_124",
+      "chunk_14_173",
+      "chunk_13_158",
+      "chunk_9_115",
+      "chunk_5_068",
+      "chunk_11_131",
+      "chunk_8_110",
+      "chunk_1_009",
+      "chunk_12_156",
+      "chunk_13_160",
+      "chunk_13_165",
+      "chunk_12_143"
+    ],
+    "citations": [
+      {
+        "claim": "Domiciliary treatment is covered when the patient cannot be moved to a hospital or when a hospital room is unavailable.",
+        "source": "USGIC-CSCIndividualHealthInsurance_2017-2018.pdf",
+        "page": 2,
+        "section": "UNIVERSAL SOMPO GENERAL INSURANCE CO LTD",
+        "chunk_id": "chunk_2_028",
+        "chunk_text": "Domiciliary Treatment means medical treatment for an Illness/disease/Injury which in the normal course would require care and treatment at a Hospital but is actually taken while confined at home under any of the following circumstances: \uf0b7 the condition of the patient is such that he/she is not in a condition to be removed to a Hospital, or \uf0b7 the patient takes treatment at home on account of non-availability of room in a Hospital."
+      },
+      {
+        "claim": "Treatment must be medically necessary and prescribed by a Medical Practitioner.",
+        "source": "USGIC-CSCIndividualHealthInsurance_2017-2018.pdf",
+        "page": 4,
+        "section": "UNIVERSAL SOMPO GENERAL INSURANCE CO LTD",
+        "chunk_id": "chunk_4_052",
+        "chunk_text": "Medically Necessary means any treatment, tests, medication, or stay in Hospital or part of a stay in Hospital which \uf0b7 is required for the medical management of the Illness or Injury suffered by the insured; \uf0b7 must not exceed the level of care necessary to provide safe, adequate and appropriate medical care in scope, duration, or intensity; \uf0b7 must have been prescribed by a Medical Practitioner, \uf0b7 must conform to the professional standards widely accepted in international medical practice or by the medical community in India."
+      },
+      {
+        "claim": "Inpatient hospitalization requires minimum 24 consecutive hours admission.",
+        "source": "USGIC-CSCIndividualHealthInsurance_2017-2018.pdf",
+        "page": 3,
+        "section": "UNIVERSAL SOMPO GENERAL INSURANCE CO LTD",
+        "chunk_id": "chunk_3_035",
+        "chunk_text": "Hospitalization means admission in a Hospital for a minimum period of 24 In-patient Care consecutive hours except for specified procedures/ treatments, where such admission could be for a period of less than 24 consecutive hours."
+      },
+      {
+        "claim": "Domiciliary hospitalization expenses are subject to a maximum aggregate sub-limit of 20% of the Basic Sum Insured.",
+        "source": "USGIC-CSCIndividualHealthInsurance_2017-2018.pdf",
+        "page": 7,
+        "section": "NB2:",
+        "chunk_id": "chunk_7_102",
+        "chunk_text": "NB2: Expenses incurred for Domiciliary Hospitalization will be paid up to a maximum aggregate sub-limit of 20% of the Basic Sum Insured"
+      },
+      {
+        "claim": "Initial 30-day waiting period and 1-year specific disease waiting period apply.",
+        "source": "USGIC-CSCIndividualHealthInsurance_2017-2018.pdf",
+        "page": 9,
+        "section": "UNIVERSAL SOMPO GENERAL INSURANCE CO LTD",
+        "chunk_id": "chunk_9_115",
+        "chunk_text": "30 days Waiting Period A waiting period of 30 days will apply to all claims unless: \uf0b7 You have been insured under this Policy continuously and without any break in the previous Policy Year, or \uf0b7 You were insured continuously and without interruption for at least 1 year under any other Indian insurer\u201fs individual health insurance Policy for the reimbursement of medical costs for inpatient treatment in a Hospital, and You establish to Our satisfaction that You were unaware of and had not taken any advice or medication for such Illness or treatment. \uf0b7 If You renew with Us or transfer from any other insurer and increase the Sum Insured (other than as a result of the application of Cumulative Bonus upon Renewal with Us, then this exclusion shall only apply in relation to the amount by which the Sum Insured has been increased. 3. Hospitalization expense incurred in the first year of operation of the insurance cover on treatment of the following Diseases: i) Cataract ii) Benign Prostatic Hypertrophy iii) Myomectomy, Hysterectomy iv) Hernia, Hydrocele v) Fistula in anus, Piles vi) Arthritis, Gout, Rheumatism vii) Joint replacement unless due to accident viii) Sinusitis and related disorders ix) Stone in the urinary and biliary systems x) Dilatation and Curettage xi) Skin and all internal tumors/ cysts/ nodules/ polyps of any kind, including breast lumps unless malignant, adenoids and hemorrhoids xii) Dialysis required for rental failure xiii) Surgery on tonsils and sinuses xiv) Gastric and duodenal ulcers However, a waiting period of 1 year will not apply if You were insured continuously and without interruption for at least 1 year under Our or any other Indian insurer\u201fs individual health insurance Policy for the reimbursement of medical costs for inpatient treatment in a Hospital. NB: The reduction in the waiting period specified above shall be applied subject to the following: \uf0b7 We will only apply the reduction of the waiting period if We have received the database and claim history from the previous Indian insurance Company (if applicable); \uf0b7 We are under no obligation to insure all Insured Persons or to insure all Insured Persons on the proposed terms, or on the same terms as the previous health insurance Policy even if You have submitted to Us all documentation \uf0b7 We shall consider only completed years of coverage for waiver of waiting periods. 4. Injury or Illnesses directly or indirectly caused by or arising from or attributable to War, invasion, riot, strike, terrorism, act of foreign enemy, War like operation (whether War be declared or not). 5. Circumcision unless necessary for the treatment of an Illness not otherwise excluded or required as a result of accidental bodily injury; vaccination, inoculation, cosmetic or aesthetic treatment of any description(including any complications arising thereof), plastic surgery except those relating to treatment of Injury or Disease . 6. Cost of spectacles and contact lens or hearing aids. 7. Dental treatment or surgery of any kind. 8. Convalescence, general debility, run down condition or rest cure, congenital external disease or defects or anomalies, sterility, venereal disease, intentional self injury and use of intoxicating drugs/alcohols. 9. Any expense on treatment related to HIV, AIDS and all related medical conditions. 10. Expenses on Diagnostic, X-Ray, or Laboratory examinations unless related to the treatment of Disease or Injury falling within ambit of Hospitalisation or Domiciliary Hospitalisation claim. 11. Expenses on treatment arising from or traceable to pregnancy, childbirth, miscarriage, abortion or complications of any of these, including caesarean section and any infertility, sub fertility or assisted conception treatment."
+      },
+      {
+        "claim": "Pre-Existing Diseases are subject to a 48-month waiting period.",
+        "source": "USGIC-CSCIndividualHealthInsurance_2017-2018.pdf",
+        "page": 8,
+        "section": "UNIVERSAL SOMPO GENERAL INSURANCE CO LTD",
+        "chunk_id": "chunk_8_108",
+        "chunk_text": "Pre-existing diseases Pre-existing diseases will not be covered until 48 months of continuous coverage have elapsed, since inception of the first Policy with Us; but: If You are presently covered and have been continuously covered without any break under: i. An individual health insurance plan with an Indian insurer for the reimbursement of medical costs for inpatient treatment in a Hospital,"
+      }
+    ],
+    "citations_count": 6,
+    "canonical_citations_resolved": 6,
+    "citation_resolution_errors": [],
+    "expected_sections": [
+      "Domiciliary Hospitalization",
+      "Sub-limits"
+    ],
+    "matched_sections": [
+      "Domiciliary Hospitalization",
+      "Sub-limits"
+    ],
+    "elapsed_seconds": 85.79
+  }
+]

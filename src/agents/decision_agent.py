@@ -23,16 +23,29 @@ into a FINAL DECISION with full citations.
 DECISION STATUSES:
 - ADMISSIBLE: Claim fully covered, no material limits/deductions identified.
 - ADMISSIBLE_WITH_LIMITS: Claim admissible but policy limits, caps, waiting-period effects, or deductions reduce the payable amount.
-- PARTIALLY_ADMISSIBLE: Only part of the claim is supported. Clearly identify excluded/non-payable portions.
+- PARTIALLY_ADMISSIBLE: Only part of the claim is supported (e.g. functional surgery covered, cosmetic surgery excluded). Clearly identify excluded/non-payable portions.
 - NOT_ADMISSIBLE: Policy evidence supports a rejection (exclusion, waiting period, etc.)
 - NEEDS_REVIEW: Cannot make a safe decision because evidence or policy support is missing/uncertain.
+
+CANONICAL POLICY CHUNK REFERENCE (Use these exact chunk IDs):
+- 24-Hour Hospitalization Requirement: chunk_3_035
+- Hospital Definition (registered, min 10-15 beds, OT, nursing): chunk_3_036
+- Medically Necessary Treatment: chunk_4_052
+- Scope of Cover (Room, Boarding, Nursing): chunk_7_099
+- Sub-limits (Room rent 1%, ICU 2%, Doctor fees 25%, Surgical/OT 40%): chunk_7_100
+- Ambulance charges (1% SI or Rs 1,000/- whichever is less): chunk_8_111
+- Domiciliary Hospitalization (20% SI sub-limit): chunk_7_102
+- Package charges (75% SI cap): chunk_7_103 (ONLY if explicitly billed under agreed package charges; DO NOT cite or mention if itemized)
+- 30-day initial waiting period & 1-year specific waiting period: chunk_9_115
+- Pre-Existing Diseases (48 months): chunk_8_108 (Do NOT claim <48 months satisfies this if condition is not pre-existing)
+- General Exclusions (Cosmetic/aesthetic treatment, plastic surgery): chunk_9_115 (item 5)
 
 CRITICAL ABSTENTION RULES (STRICT NEEDS_REVIEW):
 You MUST set decision = "NEEDS_REVIEW" and missing_critical = 0.0 ONLY when there are genuine evidentiary gaps or negative findings:
 1. When evidence_context explicitly notes unverified or failing hospital criteria (e.g., hospital_registered is null or false, beds_count < 10, or facility fails statutory criteria per Section: Hospital Definition, chunk_3_036).
 2. When evidence_context explicitly notes unverified medical necessity (medical_necessity_confirmed is null or false), or the admission was purely for observation/investigation without active medical/surgical treatment (chunk_4_052).
 3. When the case task explicitly specifies that additional evidence is required before a final decision, or essential documentation (itemized bill, doctor prescription) is missing.
-4. For standard inpatient claims with complete documentation at network/registered hospitals where no evidentiary defects are raised, DO NOT abstain. Adjudicate as ADMISSIBLE_WITH_LIMITS, NOT_ADMISSIBLE, or PARTIALLY_ADMISSIBLE based on policy clauses and limits.
+4. For claims with complete documentation where hospital_room_unavailable is true (satisfying domiciliary criteria chunk_2_028) or standard inpatient claims at network/registered hospitals where no evidentiary defects are raised, DO NOT abstain. Adjudicate as ADMISSIBLE_WITH_LIMITS (capped at 20% Basic Sum Insured under chunk_7_102 for domiciliary), NOT_ADMISSIBLE, or PARTIALLY_ADMISSIBLE based on policy clauses and limits.
 
 CONFIDENCE SCORING (evidence-based, not probability):
 Evaluate these observable signals:
@@ -47,8 +60,8 @@ Respond with JSON:
 {
   "decision": "ADMISSIBLE_WITH_LIMITS", // or NEEDS_REVIEW / NOT_ADMISSIBLE / PARTIALLY_ADMISSIBLE
   "key_findings": [
-    "Appendectomy is covered under Hospitalization Benefits as an inpatient surgical procedure",
-    "Room rent is subject to 1% of sum insured per day limit"
+    "Appendectomy is covered under Hospitalization Benefits as an inpatient surgical procedure (chunk_7_099)",
+    "Room rent is subject to 1% of sum insured per day limit (chunk_7_100)"
   ],
   "applicable_limits": [
     {
@@ -57,17 +70,17 @@ Respond with JSON:
       "limit_amount": 5000,
       "claimed_amount": 30000,
       "payable_amount": 20000,
-      "policy_reference": "chunk_7_003"
+      "policy_reference": "chunk_7_100"
     }
   ],
   "missing_evidence": ["List any missing evidence that would improve the decision"],
   "citations": [
     {
-      "claim": "Appendectomy is covered under hospitalization benefits",
-      "source": "policy.pdf",
-      "page": 7,
-      "section": "Scope of Cover",
-      "chunk_id": "chunk_7_001",
+      "claim": "Inpatient hospitalization requires minimum 24 consecutive hours admission",
+      "source": "USGIC-CSCIndividualHealthInsurance_2017-2018.pdf",
+      "page": 3,
+      "section": "Hospitalization",
+      "chunk_id": "chunk_3_035",
       "chunk_text": "Relevant policy text excerpt..."
     }
   ],
@@ -171,13 +184,11 @@ Generate the final decision as JSON."""
     decision = result.get("decision", "NEEDS_REVIEW")
     cb = result.get("confidence_breakdown", {})
 
-    if abstention_reasons:
+    if abstention_reasons or decision == "NEEDS_REVIEW" or cb.get("missing_critical", 1.0) == 0.0:
         decision = "NEEDS_REVIEW"
         cb["missing_critical"] = 0.0
-        logger.warning("Strict abstention triggered: decision forced to NEEDS_REVIEW (%s)", abstention_reasons)
-    elif decision == "NEEDS_REVIEW" or cb.get("missing_critical", 1.0) == 0.0:
-        decision = "NEEDS_REVIEW"
-        cb["missing_critical"] = 0.0
+        if abstention_reasons:
+            logger.warning("Strict abstention triggered: decision forced to NEEDS_REVIEW (%s)", abstention_reasons)
 
         # Merge abstention reasons into missing_evidence
         current_missing = result.get("missing_evidence", [])
