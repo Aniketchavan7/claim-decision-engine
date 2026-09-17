@@ -24,7 +24,8 @@ The system is deployed and accessible via public endpoints:
 
 | Service | Live URL | Description |
 | :--- | :--- | :--- |
-| **Hugging Face Space (Docker)** | [https://huggingface.co/spaces/Aniketnew7/claim-decision-engine](https://huggingface.co/spaces/Aniketnew7/claim-decision-engine) | Hosted cloud Docker deployment with Streamlit UI & FastAPI backend |
+| **Hugging Face Space (Direct App)** | [https://aniketnew7-claim-decision-engine.hf.space](https://aniketnew7-claim-decision-engine.hf.space) | Direct cloud Docker deployment with Streamlit UI & FastAPI backend |
+| **Hugging Face Space (Hub & Logs)** | [https://huggingface.co/spaces/Aniketnew7/claim-decision-engine](https://huggingface.co/spaces/Aniketnew7/claim-decision-engine) | Hugging Face Space repository, card & build logs |
 | **Streamlit Interactive UI** | [https://fluffy-fans-give.loca.lt](https://fluffy-fans-give.loca.lt) | Full adjudication interface with real-time agent trace, citation inspector, confidence breakdown |
 | **FastAPI Backend Swagger** | [https://cold-meals-smell.loca.lt/docs](https://cold-meals-smell.loca.lt/docs) | Interactive OpenAPI docs & endpoints (`/analyze`, `/health`, `/evaluate`) |
 | **FastAPI Health Endpoint** | [https://cold-meals-smell.loca.lt/health](https://cold-meals-smell.loca.lt/health) | Live system status & model availability check |
