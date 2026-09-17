@@ -22,9 +22,9 @@ class DenseRetriever:
         self.index = index
         self.chunks = chunks
         if isinstance(model, str):
-            self.model = SentenceTransformer(model)
+            self.model = SentenceTransformer(model, device="cpu")
         elif model_name:
-            self.model = SentenceTransformer(model_name)
+            self.model = SentenceTransformer(model_name, device="cpu")
         else:
             self.model = model
         self.query_prefix = query_prefix

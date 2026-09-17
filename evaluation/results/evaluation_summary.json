@@ -1,11 +1,13 @@
 {
   "total_cases_evaluated": 17,
-  "decision_accuracy_pct": 100.0,
-  "correct_decisions": 17,
+  "decision_accuracy_pct": 70.59,
+  "correct_decisions": 12,
+  "validation_pass_rate_pct": 52.94,
+  "validation_passes": 9,
   "abstention_accuracy_pct": 100.0,
   "needs_review_expected": 4,
   "needs_review_correct": 4,
   "retrieval_section_recall_pct": 100.0,
-  "canonical_citation_resolver_accuracy_pct": 97.7,
-  "finding_citation_coverage_pct": 89.66
+  "canonical_citation_resolver_accuracy_pct": 95.06,
+  "finding_citation_coverage_pct": 86.46
 }
