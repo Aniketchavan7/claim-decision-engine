@@ -1,3 +1,12 @@
+---
+title: Policy-Aware Claim Decision Engine
+emoji: 🛡️
+colorFrom: blue
+colorTo: green
+sdk: docker
+app_port: 7860
+---
+
 # Policy-Aware Multi-Agent RAG Claim Decision Engine
 
 [![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/downloads/release/python-3119/)
