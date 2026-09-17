@@ -25,13 +25,11 @@ RUN python -c "from sentence_transformers import SentenceTransformer, CrossEncod
 # Copy repository content
 COPY . .
 
-# Expose port for Hugging Face Spaces / Container
+# Ensure start.sh has executable permissions
+RUN chmod +x /app/start.sh
+
+# Expose port 7860 for Hugging Face Spaces
 EXPOSE 7860
 
-# Create startup script to run FastAPI in background and Streamlit on port 7860
-RUN echo '#!/bin/bash\n\
-uvicorn src.api.main:app --host 0.0.0.0 --port 8000 &\n\
-API_BASE_URL="http://localhost:8000" streamlit run frontend/app.py --server.port 7860 --server.address 0.0.0.0\n'\
-> /app/start.sh && chmod +x /app/start.sh
-
 CMD ["/app/start.sh"]
+
