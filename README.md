@@ -15,9 +15,9 @@ The system is deployed and accessible via public endpoints:
 
 | Service | Live URL | Description |
 | :--- | :--- | :--- |
-| **Streamlit Interactive UI** | [https://strong-beans-attend.loca.lt](https://strong-beans-attend.loca.lt) | Full adjudication interface with real-time agent trace, citation inspector, confidence breakdown |
-| **FastAPI Backend Swagger** | [https://ripe-fans-exist.loca.lt/docs](https://ripe-fans-exist.loca.lt/docs) | Interactive OpenAPI docs & endpoints (`/analyze`, `/health`, `/evaluate`) |
-| **FastAPI Health Endpoint** | [https://ripe-fans-exist.loca.lt/health](https://ripe-fans-exist.loca.lt/health) | Live system status & model availability check |
+| **Streamlit Interactive UI** | [https://fluffy-fans-give.loca.lt](https://fluffy-fans-give.loca.lt) | Full adjudication interface with real-time agent trace, citation inspector, confidence breakdown |
+| **FastAPI Backend Swagger** | [https://cold-meals-smell.loca.lt/docs](https://cold-meals-smell.loca.lt/docs) | Interactive OpenAPI docs & endpoints (`/analyze`, `/health`, `/evaluate`) |
+| **FastAPI Health Endpoint** | [https://cold-meals-smell.loca.lt/health](https://cold-meals-smell.loca.lt/health) | Live system status & model availability check |
 
 > [!NOTE]
 > **Localtunnel Password / IP:** If prompted by Localtunnel for an IP verification password, enter: **`49.36.46.107`** and click "Click to Submit".
