@@ -111,8 +111,8 @@ API responses strictly adhere to the structured decision schema:
 
 ### Installation
 ```bash
-git clone <your-repo-url>
-cd Aptino_Aniket
+git clone https://github.com/Aniketchavan7/claim-decision-engine.git
+cd claim-decision-engine
 
 # Create virtual environment
 python -m venv venv
