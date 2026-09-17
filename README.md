@@ -60,8 +60,8 @@ flowchart TD
         DA --> VA["5. Validation Agent\n(Verifies claim-evidence fidelity quality gate)"]
         
         VA -->|PASS| FIN["Authoritative Decision Output"]
-        VA -->|FAIL (Retry <= 2)| CE
-        VA -->|Max Retries Exceeded| ABS["NEEDS_REVIEW Abstention"]
+        VA -->|"FAIL (Retry 1 or 2)"| CE
+        VA -->|"Max Retries Exceeded"| ABS["NEEDS_REVIEW Abstention"]
     end
 
     subgraph "Dimension-Specific Hybrid Retrieval"
@@ -69,7 +69,10 @@ flowchart TD
         PE -.-> D2["Waiting Period Query"]
         PE -.-> D3["Exclusions Query"]
         PE -.-> D4["Hospital Definition Query"]
-        D1 & D2 & D3 & D4 --> HR["Hybrid Retriever\n(Dense + BM25s)"]
+        D1 --> HR["Hybrid Retriever\n(Dense + BM25s)"]
+        D2 --> HR
+        D3 --> HR
+        D4 --> HR
         HR --> RRF["Reciprocal Rank Fusion\n(RRF k=60)"]
         RRF --> RERANK["Cross-Encoder Reranker\n(ms-marco-MiniLM-L-6-v2)"]
         RERANK -.-> PE
