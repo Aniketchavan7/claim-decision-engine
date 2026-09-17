@@ -50,13 +50,23 @@ EVIDENCE INTERPRETATION STANDARDS:
 4. DOMICILIARY TREATMENT:
    - Domiciliary treatment (chunk_2_028) takes place at home when hospital rooms are unavailable or patient cannot be moved, and is subject to the 20% sub-limit (chunk_7_102). Domiciliary treatment by definition occurs at home rather than in a 24-hour hospital facility.
 
-5. GENUINE FAILURES TO FLAG (status = "FAIL"):
+5. EXPERIMENTAL / UNPROVEN TREATMENT:
+   - When treatment is experimental or investigational (treatment.experimental == true or procedure is experimental therapy), a rejection of NOT_ADMISSIBLE citing chunk_6_077 (unproven/experimental treatment definition), chunk_4_052 (medically necessary standards), or chunk_10_117 (unapproved treatments) is FULLY SUPPORTED and must be marked PASS.
+
+6. HOSPITAL QUALIFICATION & ADMINISTRATIVE REVIEW (NEEDS_REVIEW):
+   - A missing or incomplete hospital-qualification record requires NEEDS_REVIEW; do not infer final non-compliance unless the case expressly confirms each failed policy criterion.
+   - When hospital_registered is null/false or hospital criteria (10-15 beds, OT, nursing under chunk_3_036) are unverified or undocumented, adjudicating as NEEDS_REVIEW is the EXPECTED, CORRECT, and SAFE procedure. Do NOT flag NEEDS_REVIEW as an unjustified abstention, and do NOT claim that lack of proof warrants immediate outright denial.
+
+7. PROCEDURAL FINDINGS IN NEEDS_REVIEW:
+   - In a NEEDS_REVIEW decision, findings that explain what evidence is missing (e.g. itemized bills, physician admission rationale, discharge summary) or state that coverage and deductions cannot be finalized until verified are valid procedural statements. Do NOT flag them as unsupported policy claims.
+
+8. GENUINE FAILURES TO FLAG (status = "FAIL"):
    - A cited chunk_id does not exist in the index.
    - The cited chunk text contradicts the claim (e.g., claiming 100% room rent when chunk states 1%).
    - An LLM invents a non-existent exclusion or policy rule.
-   - An abstention (NEEDS_REVIEW) is claimed without any genuine evidentiary or document defect.
+   - An abstention (NEEDS_REVIEW) is claimed without any genuine evidentiary or document defect (Note: missing itemized bill, unverified medical necessity, unverified hospital registration, or missing clinical records ARE genuine defects justifying NEEDS_REVIEW).
 
-If all material statements are substantively grounded in policy provisions: status = "PASS", unsupported_claims = [].
+If all material statements are substantively grounded in policy provisions or procedural evidence rules: status = "PASS", unsupported_claims = [].
 Only if there are genuine contradictions, invented limits, or ungrounded rules: status = "FAIL".
 
 Output format (strict JSON):

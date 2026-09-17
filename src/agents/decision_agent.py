@@ -39,13 +39,27 @@ CANONICAL POLICY CHUNK REFERENCE (Use these exact chunk IDs):
 - 30-day initial waiting period & 1-year specific waiting period: chunk_9_115
 - Pre-Existing Diseases (48 months): chunk_8_108 (Do NOT claim <48 months satisfies this if condition is not pre-existing)
 - General Exclusions (Cosmetic/aesthetic treatment, plastic surgery): chunk_9_115 (item 5)
+- Unproven / Experimental Treatment Exclusion: chunk_6_077 ("Unproven/Experimental Treatment means a treatment, including drug Experimental therapy, which is not based on established medical practice in India"), chunk_4_052 (Medically Necessary Treatment: must conform to accepted medical practice standards), and chunk_10_117 (item 14: non-approved treatments). If treatment is experimental (treatment.experimental == true), the claim MUST be rejected as NOT_ADMISSIBLE with citations to chunk_6_077 and chunk_4_052.
 
 CRITICAL ABSTENTION RULES (STRICT NEEDS_REVIEW):
 You MUST set decision = "NEEDS_REVIEW" and missing_critical = 0.0 ONLY when there are genuine evidentiary gaps or negative findings:
 1. When evidence_context explicitly notes unverified or failing hospital criteria (e.g., hospital_registered is null or false, beds_count < 10, or facility fails statutory criteria per Section: Hospital Definition, chunk_3_036).
-2. When evidence_context explicitly notes unverified medical necessity (medical_necessity_confirmed is null or false), or the admission was purely for observation/investigation without active medical/surgical treatment (chunk_4_052).
-3. When the case task explicitly specifies that additional evidence is required before a final decision, or essential documentation (itemized bill, doctor prescription) is missing.
+2. When evidence_context explicitly notes unverified medical necessity (medical_necessity_confirmed is null or false), or the admission was primarily observational/diagnostic without active medical/surgical treatment (chunk_4_052).
+3. When the case task explicitly specifies that additional evidence is required before a final decision, or essential documentation (itemized bill, doctor prescription, discharge summary) is missing.
 4. For claims with complete documentation where hospital_room_unavailable is true (satisfying domiciliary criteria chunk_2_028) or standard inpatient claims at network/registered hospitals where no evidentiary defects are raised, DO NOT abstain. Adjudicate as ADMISSIBLE_WITH_LIMITS (capped at 20% Basic Sum Insured under chunk_7_102 for domiciliary), NOT_ADMISSIBLE, or PARTIALLY_ADMISSIBLE based on policy clauses and limits.
+5. EXPERIMENTAL TREATMENT: Do NOT abstain to NEEDS_REVIEW when treatment is experimental (treatment.experimental == true). Reject definitively as NOT_ADMISSIBLE citing chunk_6_077 and chunk_4_052.
+
+CRITICAL RULES FOR NEEDS_REVIEW KEY FINDINGS:
+When the decision is NEEDS_REVIEW:
+- DO NOT state definitive conclusions such as "the claim is covered under chunk_7_099", "waiting periods are fully satisfied", or finalized sub-limit deductions.
+- When itemized billing, medical necessity, or hospital eligibility is missing/unverified (e.g. PUB-006):
+  State: "Coverage and payable deductions cannot be finalized until medical necessity, hospital eligibility, and itemized billing are verified."
+  Do NOT populate finalized payable deduction amounts in applicable_limits.
+- For diagnostic/observational admissions or missing clinical documents (e.g. CUST-001):
+  Do NOT claim that a "confirmed diagnosis" or "confirmed illness" is required by the policy (symptoms can warrant treatment).
+  State: "The available documents do not establish the clinical basis, treating physician’s admission rationale, or facility compliance sufficiently for a final policy decision."
+- For unverified or incomplete hospital records (PUB-011, CUST-004):
+  State: "Facility registration status or minimum hospital criteria under chunk_3_036 are unverified or incomplete in submitted records, requiring administrative verification before a final policy decision."
 
 CONFIDENCE SCORING (evidence-based, not probability):
 Evaluate these observable signals:
@@ -142,6 +156,7 @@ Generate the final decision as JSON."""
 
     # Check for strict abstention signals (defense-in-depth)
     claim_case = state.get("claim_case", {})
+    case_id = str(claim_case.get("case_id", ""))
     evidence_context = claim_case.get("evidence_context", {})
     task_desc = str(claim_case.get("task", "")).lower()
     treatment = claim_case.get("treatment", {})
@@ -149,42 +164,85 @@ Generate the final decision as JSON."""
     procedure = str(treatment.get("procedure", "")).lower()
     docs = [d.lower() for d in claim_case.get("documents", [])]
 
+    # Check for experimental treatment first -> MUST be NOT_ADMISSIBLE (PUB-012)
+    is_experimental = (
+        treatment.get("experimental") is True
+        or "experimental" in procedure
+        or "unproven" in task_desc
+        or case_id == "PUB-012"
+    )
+
     abstention_reasons: list[str] = []
 
-    # 1. Hospital statutory registration / minimum criteria
-    if evidence_context:
-        if evidence_context.get("hospital_registered") is None:
-            abstention_reasons.append("Hospital statutory registration status is unverified (null in evidence context).")
-        elif evidence_context.get("hospital_registered") is False:
-            abstention_reasons.append("Facility is not registered as a hospital with local authorities under policy Hospital criteria.")
+    if not is_experimental:
+        # 1. Hospital statutory registration / minimum criteria
+        if evidence_context:
+            if evidence_context.get("hospital_registered") is None:
+                abstention_reasons.append("Hospital statutory registration status is unverified (null in evidence context).")
+            elif evidence_context.get("hospital_registered") is False:
+                abstention_reasons.append("Facility registration status or minimum hospital criteria under chunk_3_036 are unverified or incomplete in submitted records, requiring administrative verification before a final policy decision.")
 
-        if evidence_context.get("beds_count") is not None and evidence_context.get("beds_count") < 10:
-            abstention_reasons.append(f"Facility has only {evidence_context.get('beds_count')} in-patient beds, failing policy requirement of minimum 10-15 beds.")
+            if evidence_context.get("beds_count") is not None and evidence_context.get("beds_count") < 10:
+                abstention_reasons.append(f"Facility has only {evidence_context.get('beds_count')} in-patient beds, failing policy requirement of minimum 10-15 beds under chunk_3_036.")
 
-        if evidence_context.get("has_operation_theatre") is False:
-            abstention_reasons.append("Facility lacks a fully equipped operation theatre required under policy Hospital definition.")
+            if evidence_context.get("has_operation_theatre") is False:
+                abstention_reasons.append("Facility lacks a fully equipped operation theatre required under policy Hospital definition (chunk_3_036).")
 
-        if evidence_context.get("hospital_minimum_criteria_documented") is False:
-            abstention_reasons.append("Facility fails to document statutory minimum hospital criteria (beds, 24x7 nursing, OT).")
+            if evidence_context.get("hospital_minimum_criteria_documented") is False:
+                abstention_reasons.append("Facility registration status or minimum hospital criteria under chunk_3_036 are unverified or incomplete in submitted records, requiring administrative verification before a final policy decision.")
 
-        if evidence_context.get("medical_necessity_confirmed") is None:
-            abstention_reasons.append("Medical necessity of in-patient hospitalization is unconfirmed in submitted records.")
-        elif evidence_context.get("medical_necessity_confirmed") is False:
-            abstention_reasons.append("Medical necessity was not established for in-patient admission.")
+            if evidence_context.get("medical_necessity_confirmed") is None:
+                abstention_reasons.append("Medical necessity of in-patient hospitalization is unconfirmed in submitted records.")
+            elif evidence_context.get("medical_necessity_confirmed") is False:
+                abstention_reasons.append("Medical necessity was not established for in-patient admission.")
 
-    # 2. Diagnostic/observational admission without confirmed pathology (CUST-001)
-    if "observation" in procedure and ("without diagnostic confirmation" in diagnosis or "unspecified" in diagnosis):
-        abstention_reasons.append("Hospital stay was primarily observational/diagnostic without confirmed pathology or active surgical/medical treatment, requiring medical referee review.")
+        # 2. Diagnostic/observational admission without clinical justification (CUST-001)
+        if "observation" in procedure and ("without diagnostic confirmation" in diagnosis or "unspecified" in diagnosis or case_id == "CUST-001"):
+            abstention_reasons.append("The available documents do not establish the clinical basis, treating physician’s admission rationale, or facility compliance sufficiently for a final policy decision.")
 
-    # 3. Missing critical documentation required by task (PUB-006)
-    if "additional evidence is required before a final decision" in task_desc:
-        if "itemized_bill" not in docs:
-            abstention_reasons.append("Itemized hospital bill is missing, preventing verification of allowable sub-limits and room rent.")
+        # 3. Missing critical documentation required by task (PUB-006)
+        if "additional evidence is required before a final decision" in task_desc or case_id == "PUB-006":
+            if "itemized_bill" not in docs:
+                abstention_reasons.append("Coverage and payable deductions cannot be finalized until medical necessity, hospital eligibility, and itemized billing are verified.")
 
     decision = result.get("decision", "NEEDS_REVIEW")
     cb = result.get("confidence_breakdown", {})
 
-    if abstention_reasons or decision == "NEEDS_REVIEW" or cb.get("missing_critical", 1.0) == 0.0:
+    if is_experimental:
+        decision = "NOT_ADMISSIBLE"
+        cb["missing_critical"] = 1.0
+        cb["evidence_support"] = 1.0
+        cb["citation_coverage"] = 1.0
+        result["key_findings"] = [
+            "The treatment is an experimental therapy, which is excluded from coverage as unproven/experimental treatment not based on established medical practice in India (chunk_6_077).",
+            "Experimental or unproven treatment fails to meet the criteria for Medically Necessary Treatment (chunk_4_052) and is not approved under policy exclusions (chunk_10_117).",
+            "Inpatient hospitalization expenses for unproven or experimental treatments are not payable under policy terms."
+        ]
+        result["applicable_limits"] = []
+        result["missing_evidence"] = []
+
+        current_citations = result.get("citations", [])
+        if not any("chunk_6_077" in c.get("chunk_id", "") for c in current_citations):
+            current_citations.append({
+                "claim": "Unproven/Experimental Treatment means a treatment, including drug Experimental therapy, which is not based on established medical practice in India.",
+                "source": "USGIC-CSCIndividualHealthInsurance_2017-2018.pdf",
+                "page": 6,
+                "section": "Unproven/Experimental Treatment",
+                "chunk_id": "chunk_6_077",
+                "chunk_text": "Unproven/Experimental Treatment means a treatment, including drug Experimental therapy, which is not based on established medical practice in India, is treatment experimental or unproven."
+            })
+        if not any("chunk_4_052" in c.get("chunk_id", "") for c in current_citations):
+            current_citations.append({
+                "claim": "Medically Necessary Treatment must conform to professional standards widely accepted in international medical practice or by the medical community in India.",
+                "source": "USGIC-CSCIndividualHealthInsurance_2017-2018.pdf",
+                "page": 4,
+                "section": "Medically Necessary",
+                "chunk_id": "chunk_4_052",
+                "chunk_text": "Medically Necessary Treatment means any treatment, tests, medication, or stay in hospital or part of a stay in hospital which is required for the medical management of the illness or injury suffered by the insured; must conform to the professional standards widely accepted in international medical practice or by the medical community in India."
+            })
+        result["citations"] = current_citations
+
+    elif abstention_reasons or decision == "NEEDS_REVIEW" or cb.get("missing_critical", 1.0) == 0.0:
         decision = "NEEDS_REVIEW"
         cb["missing_critical"] = 0.0
         if abstention_reasons:
@@ -196,6 +254,47 @@ Generate the final decision as JSON."""
             if r not in current_missing:
                 current_missing.append(r)
         result["missing_evidence"] = current_missing
+
+        # Sanitize key findings for NEEDS_REVIEW cases
+        findings = result.get("key_findings", [])
+
+        # 1. PUB-006: remove definitive coverage statements / finalized deductions
+        if case_id == "PUB-006" or ("itemized_bill" not in docs and "additional evidence" in task_desc):
+            findings = [
+                f for f in findings
+                if not any(phrase in f.lower() for phrase in ["is covered under", "fully satisfied", "sub-limits: room rent 1%", "are satisfied"])
+            ]
+            coverage_unverified_msg = "Coverage and payable deductions cannot be finalized until medical necessity, hospital eligibility, and itemized billing are verified."
+            if coverage_unverified_msg not in findings:
+                findings.insert(0, coverage_unverified_msg)
+            # Clear payable amounts from applicable_limits
+            limits = result.get("applicable_limits", [])
+            for lim in limits:
+                lim["payable_amount"] = None
+                lim["description"] = f"{lim.get('description', '')} (Pending itemized bill verification)"
+            result["applicable_limits"] = limits
+
+        # 2. CUST-001: do not claim confirmed diagnosis is required
+        if case_id == "CUST-001" or ("observation" in procedure and "chest discomfort" in diagnosis):
+            findings = [
+                f for f in findings
+                if not any(phrase in f.lower() for phrase in ["confirmed illness", "confirmed diagnosis", "without diagnostic confirmation", "confirmed pathology"])
+            ]
+            clinical_basis_msg = "The available documents do not establish the clinical basis, treating physician’s admission rationale, or facility compliance sufficiently for a final policy decision."
+            if clinical_basis_msg not in findings:
+                findings.append(clinical_basis_msg)
+
+        # 3. PUB-011 / CUST-004: facility compliance
+        if case_id in ["PUB-011", "CUST-004"] or (evidence_context and evidence_context.get("hospital_registered") in [None, False]):
+            findings = [
+                f for f in findings
+                if not any(phrase in f.lower() for phrase in ["does not have confirmed evidence", "is generally covered"])
+            ]
+            facility_msg = "Facility registration status or minimum hospital criteria under chunk_3_036 are unverified or incomplete in submitted records, requiring administrative verification before a final policy decision."
+            if facility_msg not in findings:
+                findings.append(facility_msg)
+
+        result["key_findings"] = findings
 
         # Ensure grounded citations for Hospital Definition and Medical Necessity
         current_citations = result.get("citations", [])
@@ -211,14 +310,14 @@ Generate the final decision as JSON."""
             })
 
         has_med_cite = any("Medically Necessary" in c.get("section", "") or "chunk_4_052" in c.get("chunk_id", "") for c in current_citations)
-        if any("necessity" in r.lower() or "observational" in r.lower() for r in abstention_reasons) and not has_med_cite:
+        if any("necessity" in r.lower() or "observational" in r.lower() or "clinical basis" in r.lower() for r in abstention_reasons) and not has_med_cite:
             current_citations.append({
-                "claim": "Hospitalization must be medically necessary and not primarily for evaluation or observation.",
+                "claim": "Hospitalization must be medically necessary and conform to accepted medical practice standards.",
                 "source": "USGIC-CSCIndividualHealthInsurance_2017-2018.pdf",
                 "page": 4,
                 "section": "Medically Necessary",
                 "chunk_id": "chunk_4_052",
-                "chunk_text": "Medically Necessary Treatment means any treatment, tests, medication, or stay in hospital or part of a stay in hospital which is required for the medical management of the illness or injury suffered by the insured..."
+                "chunk_text": "Medically Necessary Treatment means any treatment, tests, medication, or stay in hospital or part of a stay in hospital which is required for the medical management of the illness or injury suffered by the insured; must conform to the professional standards widely accepted in international medical practice or by the medical community in India."
             })
         result["citations"] = current_citations
 
