@@ -98,6 +98,7 @@ def run_evaluation(output_dir: str = "evaluation/results", selected_cases: list[
     valid_citations = 0
     total_findings = 0
     covered_findings = 0
+    validation_passes = 0
 
     section_hits = 0
     section_queries = 0
@@ -136,6 +137,9 @@ def run_evaluation(output_dir: str = "evaluation/results", selected_cases: list[
             val_status = "ERROR"
             elapsed = time.time() - t0
             final_state = {}
+
+        if val_status == "PASS":
+            validation_passes += 1
 
         is_decision_correct = actual_decision == exp_decision
         if is_decision_correct:
@@ -259,6 +263,7 @@ def run_evaluation(output_dir: str = "evaluation/results", selected_cases: list[
 
     # Metrics computation
     decision_accuracy = (correct_decisions / total_cases) * 100
+    validation_pass_rate = (validation_passes / total_cases) * 100
     abstention_accuracy = (
         (needs_review_correct / needs_review_expected) * 100
         if needs_review_expected > 0
@@ -291,6 +296,8 @@ def run_evaluation(output_dir: str = "evaluation/results", selected_cases: list[
         "total_cases_evaluated": total_cases,
         "decision_accuracy_pct": round(decision_accuracy, 2),
         "correct_decisions": correct_decisions,
+        "validation_pass_rate_pct": round(validation_pass_rate, 2),
+        "validation_passes": validation_passes,
         "abstention_accuracy_pct": round(abstention_accuracy, 2),
         "needs_review_expected": needs_review_expected,
         "needs_review_correct": needs_review_correct,
@@ -322,7 +329,8 @@ def run_evaluation(output_dir: str = "evaluation/results", selected_cases: list[
         f.write("# Evaluation Report: Policy-Aware Multi-Agent RAG Claim Decision Engine\n\n")
         f.write(f"**Date:** {time.strftime('%Y-%m-%d %H:%M:%S')}\n\n")
         f.write("## Overall Metrics\n\n")
-        f.write(f"- **Decision Quality (Accuracy):** {decision_accuracy:.1f}%\n")
+        f.write(f"- **Decision Quality (Label Accuracy):** {decision_accuracy:.1f}%\n")
+        f.write(f"- **Validation Gate Pass Rate:** {validation_pass_rate:.1f}% ({validation_passes}/{total_cases} cases passed gate)\n")
         f.write(f"- **Retrieval Section Recall@k:** {retrieval_recall:.1f}%\n")
         f.write(f"- **Canonical Citation Resolver Accuracy:** {citation_correctness:.1f}% (provenance, chunk_id existence, text grounding)\n")
         f.write(f"- **Material Finding Citation Coverage:** {finding_coverage_overall:.1f}% (key findings supported by policy citations)\n")

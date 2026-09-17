@@ -1,36 +1,37 @@
 # Evaluation Report: Policy-Aware Multi-Agent RAG Claim Decision Engine
 
-**Date:** 2026-09-17 15:59:36
+**Date:** 2026-09-17 17:03:22
 
 ## Overall Metrics
 
-- **Decision Quality (Accuracy):** 100.0%
+- **Decision Quality (Label Accuracy):** 70.6%
+- **Validation Gate Pass Rate:** 52.9% (9/17 cases passed gate)
 - **Retrieval Section Recall@k:** 100.0%
-- **Canonical Citation Resolver Accuracy:** 97.7% (provenance, chunk_id existence, text grounding)
-- **Material Finding Citation Coverage:** 89.7% (key findings supported by policy citations)
+- **Canonical Citation Resolver Accuracy:** 95.1% (provenance, chunk_id existence, text grounding)
+- **Material Finding Citation Coverage:** 86.5% (key findings supported by policy citations)
 - **Abstention Accuracy (NEEDS_REVIEW):** 100.0%
 
 ## Detailed Case Results
 
 | Case ID   | Expected               | System Decision        | Match   |   Confidence | Validation   | Section Recall   | Finding Coverage   | Latency   |
 |-----------|------------------------|------------------------|---------|--------------|--------------|------------------|--------------------|-----------|
-| PUB-001   | ADMISSIBLE_WITH_LIMITS | ADMISSIBLE_WITH_LIMITS | PASS    |         0.92 | PASS         | 100%             | 100%               | 7.36s     |
-| PUB-002   | NOT_ADMISSIBLE         | NOT_ADMISSIBLE         | PASS    |         0.98 | PASS         | 100%             | 100%               | 42.14s    |
-| PUB-003   | NOT_ADMISSIBLE         | NOT_ADMISSIBLE         | PASS    |         1    | PASS         | 100%             | 100%               | 52.74s    |
-| PUB-004   | ADMISSIBLE_WITH_LIMITS | ADMISSIBLE_WITH_LIMITS | PASS    |         0.91 | FAIL         | 100%             | 83%                | 126.89s   |
-| PUB-005   | ADMISSIBLE_WITH_LIMITS | ADMISSIBLE_WITH_LIMITS | PASS    |         1    | PASS         | 100%             | 80%                | 103.87s   |
-| PUB-006   | NEEDS_REVIEW           | NEEDS_REVIEW           | PASS    |         0.86 | FAIL         | 100%             | 100%               | 58.12s    |
-| PUB-007   | ADMISSIBLE_WITH_LIMITS | ADMISSIBLE_WITH_LIMITS | PASS    |         0.98 | FAIL         | 100%             | 83%                | 157.00s   |
-| PUB-008   | NOT_ADMISSIBLE         | NOT_ADMISSIBLE         | PASS    |         1    | PASS         | 100%             | 100%               | 40.42s    |
-| PUB-009   | ADMISSIBLE_WITH_LIMITS | ADMISSIBLE_WITH_LIMITS | PASS    |         0.92 | FAIL         | 100%             | 86%                | 180.37s   |
-| PUB-010   | ADMISSIBLE_WITH_LIMITS | ADMISSIBLE_WITH_LIMITS | PASS    |         1    | PASS         | 100%             | 80%                | 51.89s    |
-| PUB-011   | NEEDS_REVIEW           | NEEDS_REVIEW           | PASS    |         0.61 | FAIL         | 100%             | 80%                | 64.75s    |
-| PUB-012   | NOT_ADMISSIBLE         | NOT_ADMISSIBLE         | PASS    |         1    | PASS         | 100%             | 100%               | 69.36s    |
-| CUST-001  | NEEDS_REVIEW           | NEEDS_REVIEW           | PASS    |         0.62 | FAIL         | 100%             | 80%                | 56.45s    |
-| CUST-002  | NOT_ADMISSIBLE         | NOT_ADMISSIBLE         | PASS    |         0.99 | PASS         | 100%             | 100%               | 98.71s    |
-| CUST-003  | ADMISSIBLE_WITH_LIMITS | ADMISSIBLE_WITH_LIMITS | PASS    |         0.83 | FAIL         | 100%             | 100%               | 187.25s   |
-| CUST-004  | NEEDS_REVIEW           | NEEDS_REVIEW           | PASS    |         0.79 | FAIL         | 100%             | 83%                | 57.06s    |
-| CUST-005  | PARTIALLY_ADMISSIBLE   | PARTIALLY_ADMISSIBLE   | PASS    |         0.95 | FAIL         | 100%             | 83%                | 146.12s   |
+| PUB-001   | ADMISSIBLE_WITH_LIMITS | ADMISSIBLE_WITH_LIMITS | PASS    |         0.94 | PASS         | 100%             | 100%               | 72.19s    |
+| PUB-002   | NOT_ADMISSIBLE         | NOT_ADMISSIBLE         | PASS    |         1    | PASS         | 100%             | 100%               | 70.26s    |
+| PUB-003   | NOT_ADMISSIBLE         | NOT_ADMISSIBLE         | PASS    |         1    | PASS         | 100%             | 100%               | 103.87s   |
+| PUB-004   | ADMISSIBLE_WITH_LIMITS | NEEDS_REVIEW           | FAIL    |         0.65 | FAIL         | 100%             | 86%                | 157.60s   |
+| PUB-005   | ADMISSIBLE_WITH_LIMITS | ADMISSIBLE_WITH_LIMITS | PASS    |         0.96 | PASS         | 100%             | 100%               | 117.73s   |
+| PUB-006   | NEEDS_REVIEW           | NEEDS_REVIEW           | PASS    |         0.61 | FAIL         | 100%             | 100%               | 90.31s    |
+| PUB-007   | ADMISSIBLE_WITH_LIMITS | NEEDS_REVIEW           | FAIL    |         0.65 | FAIL         | 100%             | 86%                | 167.91s   |
+| PUB-008   | NOT_ADMISSIBLE         | NEEDS_REVIEW           | FAIL    |         0.55 | FAIL         | 100%             | 80%                | 101.76s   |
+| PUB-009   | ADMISSIBLE_WITH_LIMITS | ADMISSIBLE_WITH_LIMITS | PASS    |         0.99 | PASS         | 100%             | 100%               | 173.70s   |
+| PUB-010   | ADMISSIBLE_WITH_LIMITS | ADMISSIBLE_WITH_LIMITS | PASS    |         0.98 | PASS         | 100%             | 80%                | 63.08s    |
+| PUB-011   | NEEDS_REVIEW           | NEEDS_REVIEW           | PASS    |         0.69 | PASS         | 100%             | 67%                | 71.36s    |
+| PUB-012   | NOT_ADMISSIBLE         | NOT_ADMISSIBLE         | PASS    |         1    | PASS         | 100%             | 67%                | 57.71s    |
+| CUST-001  | NEEDS_REVIEW           | NEEDS_REVIEW           | PASS    |         0.6  | FAIL         | 100%             | 75%                | 66.07s    |
+| CUST-002  | NOT_ADMISSIBLE         | NOT_ADMISSIBLE         | PASS    |         1    | PASS         | 100%             | 75%                | 178.86s   |
+| CUST-003  | ADMISSIBLE_WITH_LIMITS | NEEDS_REVIEW           | FAIL    |         0.65 | FAIL         | 100%             | 62%                | 164.46s   |
+| CUST-004  | NEEDS_REVIEW           | NEEDS_REVIEW           | PASS    |         0.68 | FAIL         | 100%             | 75%                | 59.37s    |
+| CUST-005  | PARTIALLY_ADMISSIBLE   | NEEDS_REVIEW           | FAIL    |         0.73 | FAIL         | 100%             | 100%               | 79.45s    |
 
 ## Investigation of Retrieval Recall & Section Naming
 
