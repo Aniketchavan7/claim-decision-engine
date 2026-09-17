@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Copy and install python dependencies
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --default-timeout=1000 --retries 10 -r requirements.txt
 
 # Pre-download local embedding & reranking models to avoid cold start download lag
 RUN python -c "from sentence_transformers import SentenceTransformer, CrossEncoder; \
