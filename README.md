@@ -20,18 +20,16 @@ A production-style AI system that analyzes health-insurance claim cases using Re
 
 ## 🌐 Live Deployment & Interactive Demo
 
-The system is deployed and accessible via public endpoints:
+The system is deployed and accessible via cloud endpoints and local development URLs:
 
-| Service | Live URL | Description |
+| Service | Endpoint / URL | Description |
 | :--- | :--- | :--- |
 | **Hugging Face Space (Direct App)** | [https://aniketnew7-claim-decision-engine.hf.space](https://aniketnew7-claim-decision-engine.hf.space) | Direct cloud Docker deployment with Streamlit UI & FastAPI backend |
 | **Hugging Face Space (Hub & Logs)** | [https://huggingface.co/spaces/Aniketnew7/claim-decision-engine](https://huggingface.co/spaces/Aniketnew7/claim-decision-engine) | Hugging Face Space repository, card & build logs |
-| **Streamlit Interactive UI** | [https://fluffy-fans-give.loca.lt](https://fluffy-fans-give.loca.lt) | Full adjudication interface with real-time agent trace, citation inspector, confidence breakdown |
-| **FastAPI Backend Swagger** | [https://cold-meals-smell.loca.lt/docs](https://cold-meals-smell.loca.lt/docs) | Interactive OpenAPI docs & endpoints (`/analyze`, `/health`, `/evaluate`) |
-| **FastAPI Health Endpoint** | [https://cold-meals-smell.loca.lt/health](https://cold-meals-smell.loca.lt/health) | Live system status & model availability check |
-
-> [!NOTE]
-> **Localtunnel Password / IP:** If prompted by Localtunnel for an IP verification password, enter: **`49.36.46.107`** and click "Click to Submit".
+| **FastAPI Swagger Docs (Local)** | [http://localhost:8000/docs](http://localhost:8000/docs) | Interactive OpenAPI docs & endpoints (`/analyze`, `/health`) |
+| **FastAPI Health Check Docs** | [http://localhost:8000/docs#/default/health_check_health_get](http://localhost:8000/docs#/default/health_check_health_get) | Interactive health check endpoint in Swagger UI |
+| **FastAPI Health Endpoint (Raw JSON)** | [http://localhost:8000/health](http://localhost:8000/health) | Live system status & model availability check |
+| **Streamlit Interactive UI (Local)** | [http://localhost:8501](http://localhost:8501) | Local adjudication interface with real-time agent trace & citations |
 
 ---
 
@@ -109,25 +107,57 @@ API responses strictly adhere to the structured decision schema:
 - Python 3.11+
 - Git
 
-### Installation
+### 1. Installation
+
+#### Linux / macOS (Bash):
 ```bash
 git clone https://github.com/Aniketchavan7/claim-decision-engine.git
 cd claim-decision-engine
 
-# Create virtual environment
+# Create & activate virtual environment
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+source venv/bin/activate
 
 # Install dependencies
 pip install -r requirements.txt
 ```
 
-### Configure Environment Variables
-Copy `.env.example` to `.env` and configure your LLM provider:
-```bash
-cp .env.example .env
+#### Windows (PowerShell):
+```powershell
+git clone https://github.com/Aniketchavan7/claim-decision-engine.git
+cd claim-decision-engine
+
+# Create & activate virtual environment
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+
+# Install dependencies
+pip install -r requirements.txt
 ```
-Edit `.env`:
+
+#### Windows (Command Prompt - CMD):
+```cmd
+git clone https://github.com/Aniketchavan7/claim-decision-engine.git
+cd claim-decision-engine
+
+# Create & activate virtual environment
+python -m venv venv
+venv\Scripts\activate.bat
+
+# Install dependencies
+pip install -r requirements.txt
+```
+
+---
+
+### 2. Configure Environment Variables
+
+Create `.env` from template:
+- **Windows PowerShell:** `Copy-Item .env.example .env`
+- **Windows CMD:** `copy .env.example .env`
+- **Linux / macOS:** `cp .env.example .env`
+
+Edit `.env` to configure your LLM provider & API key:
 ```ini
 LLM_PROVIDER=xkiro
 LLM_API_KEY=your-xkiro-or-openai-compatible-api-key
@@ -136,15 +166,41 @@ LLM_FAST_MODEL=qwen/qwen3.7-flash:free
 LLM_FALLBACK_MODEL=minimax/minimax-m3:free
 ```
 
-### Launch Services
-Start the FastAPI backend:
+---
+
+### 3. Launch Services
+
+Run the backend and frontend in **two separate terminal windows**:
+
+#### Terminal 1 — FastAPI Backend (Port 8000)
+Run in all environments (Windows PowerShell, CMD, or Linux/macOS):
 ```bash
 uvicorn src.api.main:app --host 0.0.0.0 --port 8000 --reload
 ```
-In another terminal, start the Streamlit frontend:
+Verify the backend is live by opening [http://localhost:8000/docs](http://localhost:8000/docs).
+
+#### Terminal 2 — Streamlit Frontend (Port 8501)
+> [!TIP]
+> `http://localhost:8000` is already configured as the default `API_BASE_URL`, so you can launch the app with a single simple command!
+
+**Easiest (All Platforms - Windows / Mac / Linux):**
 ```bash
-API_BASE_URL="http://localhost:8000" streamlit run frontend/app.py
+streamlit run frontend/app.py
 ```
+
+**If overriding with a custom `API_BASE_URL`:**
+- **Windows (PowerShell):**
+  ```powershell
+  $env:API_BASE_URL="http://localhost:8000"; streamlit run frontend/app.py
+  ```
+- **Windows (Command Prompt):**
+  ```cmd
+  set API_BASE_URL=http://localhost:8000 && streamlit run frontend/app.py
+  ```
+- **Linux / macOS (Bash):**
+  ```bash
+  API_BASE_URL="http://localhost:8000" streamlit run frontend/app.py
+  ```
 
 ---
 
