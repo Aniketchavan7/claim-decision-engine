@@ -1,0 +1,334 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Claim Decision Engine: Multi-Agent RAG Runtime Architecture",
+    "output": ".archify/architecture-claim-decision-engine-20260929-181411/claim-decision-engine.html",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/Aniketchavan7/claim-decision-engine.git",
+      "revision": "898569f83020323412661cec31442c743cc19930",
+      "provider": "github",
+      "link_mode": "web"
+    }
+  },
+  "components": [
+    {
+      "id": "claimant_ui",
+      "type": "frontend",
+      "label": "Streamlit Review UI",
+      "sublabel": "claims adjuster portal",
+      "pos": [40, 200],
+      "size": [130, 60],
+      "sources": [
+        {
+          "path": "frontend/app.py",
+          "line": 15,
+          "end_line": 23,
+          "label": "Streamlit App Entry"
+        }
+      ]
+    },
+    {
+      "id": "api_gateway",
+      "type": "backend",
+      "label": "FastAPI Gateway",
+      "sublabel": "REST API :8000",
+      "pos": [280, 200],
+      "size": [140, 60],
+      "sources": [
+        {
+          "path": "src/api/main.py",
+          "line": 84,
+          "end_line": 138,
+          "label": "FastAPI Lifecycle & /analyze"
+        }
+      ]
+    },
+    {
+      "id": "case_analysis",
+      "type": "backend",
+      "label": "Case Analysis Agent",
+      "sublabel": "dimension planner",
+      "pos": [530, 200],
+      "size": [140, 60],
+      "sources": [
+        {
+          "path": "src/agents/case_analysis.py",
+          "line": 20,
+          "end_line": 50,
+          "label": "Investigation Planning"
+        }
+      ]
+    },
+    {
+      "id": "policy_evidence",
+      "type": "backend",
+      "label": "Policy Evidence Agent",
+      "sublabel": "retrieval specialist",
+      "pos": [800, 200],
+      "size": [140, 60],
+      "sources": [
+        {
+          "path": "src/agents/policy_evidence.py",
+          "line": 28,
+          "end_line": 60,
+          "label": "Dimension Retrieval Orchestrator"
+        }
+      ]
+    },
+    {
+      "id": "hybrid_retriever",
+      "type": "backend",
+      "label": "Hybrid RAG Retriever",
+      "sublabel": "dense + sparse + RRF",
+      "pos": [1070, 200],
+      "size": [140, 60],
+      "sources": [
+        {
+          "path": "src/retrieval/hybrid.py",
+          "line": 14,
+          "end_line": 40,
+          "label": "Hybrid RRF + Cross-Encoder"
+        }
+      ]
+    },
+    {
+      "id": "faiss_bm25",
+      "type": "database",
+      "label": "Policy Index Store",
+      "sublabel": "FAISS & BM25s disk",
+      "pos": [1070, 50],
+      "size": [140, 60],
+      "sources": [
+        {
+          "path": "src/ingestion/indexer.py",
+          "line": 20,
+          "end_line": 50,
+          "label": "FAISS & BM25 Persistence"
+        }
+      ]
+    },
+    {
+      "id": "coverage_exclusion",
+      "type": "backend",
+      "label": "Coverage & Exclusion",
+      "sublabel": "policy reasoning",
+      "pos": [800, 370],
+      "size": [140, 60],
+      "sources": [
+        {
+          "path": "src/agents/coverage_exclusion.py",
+          "line": 19,
+          "end_line": 50,
+          "label": "Policy Clause Assessment"
+        }
+      ]
+    },
+    {
+      "id": "decision_agent",
+      "type": "backend",
+      "label": "Decision Agent",
+      "sublabel": "adjudication & scoring",
+      "pos": [530, 370],
+      "size": [140, 60],
+      "sources": [
+        {
+          "path": "src/agents/decision_agent.py",
+          "line": 18,
+          "end_line": 55,
+          "label": "IRDAI Decision & Confidence"
+        }
+      ]
+    },
+    {
+      "id": "validation_agent",
+      "type": "security",
+      "label": "Validation Agent",
+      "sublabel": "evidence audit gate",
+      "pos": [280, 370],
+      "size": [140, 60],
+      "sources": [
+        {
+          "path": "src/agents/validation.py",
+          "line": 26,
+          "end_line": 65,
+          "label": "Citation Verification Gate"
+        }
+      ]
+    },
+    {
+      "id": "llm_service",
+      "type": "cloud",
+      "label": "LLM Provider API",
+      "sublabel": "xKiro / Qwen / OpenAI",
+      "pos": [530, 530],
+      "size": [140, 60],
+      "sources": [
+        {
+          "path": "src/llm/client.py",
+          "line": 18,
+          "end_line": 65,
+          "label": "OpenAI-Compatible Client"
+        }
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "Claim Decision Engine Host Runtime",
+      "wraps": [
+        "api_gateway",
+        "case_analysis",
+        "policy_evidence",
+        "hybrid_retriever",
+        "faiss_bm25",
+        "coverage_exclusion",
+        "decision_agent",
+        "validation_agent"
+      ]
+    },
+    {
+      "kind": "security-group",
+      "label": "Multi-Agent LangGraph Trust Mesh",
+      "wraps": [
+        "case_analysis",
+        "policy_evidence",
+        "coverage_exclusion",
+        "decision_agent"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "ui-to-api",
+      "from": "claimant_ui",
+      "to": "api_gateway",
+      "label": "POST /analyze",
+      "variant": "emphasis",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "api-to-case",
+      "from": "api_gateway",
+      "to": "case_analysis",
+      "label": "invoke graph",
+      "variant": "emphasis",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "case-to-evidence",
+      "from": "case_analysis",
+      "to": "policy_evidence",
+      "label": "investigation plan",
+      "variant": "emphasis",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "evidence-to-retriever",
+      "from": "policy_evidence",
+      "to": "hybrid_retriever",
+      "label": "dimension queries",
+      "variant": "emphasis",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "retriever-to-index",
+      "from": "hybrid_retriever",
+      "to": "faiss_bm25",
+      "label": "dense / sparse search",
+      "variant": "default",
+      "fromSide": "top",
+      "toSide": "bottom"
+    },
+    {
+      "id": "evidence-to-coverage",
+      "from": "policy_evidence",
+      "to": "coverage_exclusion",
+      "label": "ranked passages",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "coverage-to-decision",
+      "from": "coverage_exclusion",
+      "to": "decision_agent",
+      "label": "clause findings",
+      "variant": "emphasis",
+      "fromSide": "left",
+      "toSide": "right"
+    },
+    {
+      "id": "decision-to-validation",
+      "from": "decision_agent",
+      "to": "validation_agent",
+      "label": "draft decision",
+      "variant": "emphasis",
+      "fromSide": "left",
+      "toSide": "right"
+    },
+    {
+      "id": "validation-to-api",
+      "from": "validation_agent",
+      "to": "api_gateway",
+      "label": "gated output",
+      "variant": "security",
+      "fromSide": "top",
+      "toSide": "bottom"
+    },
+    {
+      "id": "decision-to-llm",
+      "from": "decision_agent",
+      "to": "llm_service",
+      "label": "reasoning calls",
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Multi-Agent Orchestration & State Flow",
+      "items": [
+        "Orchestrated via LangGraph StateGraph with typed Pydantic v2 state schemas.",
+        "Case Analysis Agent normalizes facts and plans dimensions without policy conclusions.",
+        "Coverage & Exclusion Agent reasons over retrieved clauses regarding waiting periods and limits.",
+        "Decision Agent aggregates findings and computes an observable non-probabilistic confidence score."
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Strict Abstention & Validation Gate",
+      "items": [
+        "Validation Agent gates every decision, auditing citation chunk IDs against actual policy text.",
+        "Unsupported claims trigger a bounded feedback retry loop (max 2 retries).",
+        "Strict IRDAI compliance: unverified hospital registration or bed count < 10 forces NEEDS_REVIEW."
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Dimension-Specific Hybrid RAG",
+      "items": [
+        "Parallel dimension passes prevent broad cover clauses from masking specific exclusions.",
+        "Dense retrieval (bge-small-en-v1.5) and sparse BM25s combined using Reciprocal Rank Fusion (k=60).",
+        "Cross-encoder ms-marco-MiniLM-L-6-v2 reranks the top candidate passages per dimension."
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "External Dependencies & Trust Boundaries",
+      "items": [
+        "Third-party LLM APIs (xKiro, Qwen, DeepSeek) are accessed via OpenAI-compatible SDK.",
+        "Local FAISS and BM25 index stores preserve zero-leakage offline policy persistence.",
+        "Streamlit UI interacts strictly over the public REST API boundary via /analyze."
+      ]
+    }
+  ]
+}

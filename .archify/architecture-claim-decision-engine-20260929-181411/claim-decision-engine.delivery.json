@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "de0338ae-d058-48c9-83f2-5220045b7df0",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "C:\\Users\\Aniket\\Downloads\\Aptino_Aniket\\.archify\\architecture-claim-decision-engine-20260929-181411\\candidate.json",
+  "output": "C:\\Users\\Aniket\\Downloads\\Aptino_Aniket\\.archify\\architecture-claim-decision-engine-20260929-181411\\claim-decision-engine.html",
+  "specification": {
+    "sha256": "3f5378ab2b6060a44972068005d774957c08b972e0624f5513f5cfa6daa35d41",
+    "bytes": 8921
+  },
+  "artifact": {
+    "sha256": "b924ab8613a7f4b396712ee0fc4b763a884b78c30cda58f0817e37c85f9ef5de",
+    "bytes": 770677
+  }
+}

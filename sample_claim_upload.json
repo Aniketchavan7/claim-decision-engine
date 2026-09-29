@@ -1,0 +1,39 @@
+{
+  "case_id": "TEST-UPLOAD-001",
+  "policy_id": "UNIHLIP18004V011718",
+  "policy_start_date": "2023-01-15",
+  "claim_date": "2024-07-20",
+  "sum_insured_inr": 500000,
+  "continuous_coverage_months": 18,
+  "prior_insurer_continuous_years": 0,
+  "patient": {
+    "age": 34
+  },
+  "hospital": {
+    "name": "City Care Multi-Speciality Hospital",
+    "network_provider": true
+  },
+  "treatment": {
+    "type": "inpatient",
+    "admission_hours": 48,
+    "diagnosis": "Acute Appendicitis",
+    "procedure": "Laparoscopic Appendectomy",
+    "pre_existing": false,
+    "experimental": false
+  },
+  "expenses_inr": {
+    "room": 30000,
+    "doctor_fees": 40000,
+    "medicines_diagnostics": 50000,
+    "pre_hospitalization": 0,
+    "post_hospitalization": 0,
+    "ambulance": 0
+  },
+  "documents": [
+    "discharge_summary",
+    "itemized_hospital_bill",
+    "treating_physician_notes",
+    "surgical_operative_report"
+  ],
+  "task": "Adjudicate coverage, evaluate sub-limits on room rent and doctor fees, and verify whether inpatient waiting periods apply."
+}
