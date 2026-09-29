@@ -1,0 +1,9 @@
+$env:CLAUDE_CONFIG_DIR = "$HOME\.claude-omniroute"
+
+$env:ANTHROPIC_BASE_URL = "http://localhost:20128"
+
+$env:ANTHROPIC_AUTH_TOKEN = "sk-ef0340bb6be33df8-a1e7eb-9e930da7"
+
+$env:ANTHROPIC_API_KEY = ""
+
+$env:ANTHROPIC_MODEL = "chat"
