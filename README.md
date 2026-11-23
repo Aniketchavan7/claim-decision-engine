@@ -9,6 +9,9 @@ app_port: 7860
 
 # Policy-Aware Multi-Agent RAG Claim Decision Engine
 
+> ⭐ **Multi-agent RAG for policy-aware claim verification. Please star the project if you find it innovative!**
+
+[![GitHub Stars](https://img.shields.io/github/stars/Aniketchavan7/claim-decision-engine?style=for-the-badge&logo=github&color=7aa2f7&labelColor=1a1b26)](https://github.com/Aniketchavan7/claim-decision-engine/stargazers)
 [![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/downloads/release/python-3119/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.104+-009688.svg)](https://fastapi.tiangolo.com)
 [![Streamlit](https://img.shields.io/badge/Streamlit-1.29+-FF4B4B.svg)](https://streamlit.io)
